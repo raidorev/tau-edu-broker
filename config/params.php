@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@example.com',
-    'senderEmail' => 'noreply@example.com',
-    'senderName' => 'Example.com mailer',
+    'adminEmail' => $_ENV['EMAIL_USERNAME'],
+    'adminPass' => $_ENV['EMAIL_PASSWORD'],
 ];
