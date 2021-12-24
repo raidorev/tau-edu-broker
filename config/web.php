@@ -2,6 +2,7 @@
 
 use app\components\helpers\ConfigHelper;
 use app\models\User;
+use yii\bootstrap4\BootstrapAsset;
 use yii\caching\FileCache;
 use yii\debug\Module as DebugModule;
 use yii\gii\Module as GiiModule;
@@ -21,6 +22,7 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
+        '@dist' => '@app/dist',
     ],
     'components' => [
         'request' => [
@@ -56,6 +58,15 @@ $config = [
             'rules' => [],
         ],
         'db' => ConfigHelper::createDbConfig('broker'),
+        'assetManager' => [
+            'forceCopy' => YII_ENV_DEV,
+            'bundles' => [
+                BootstrapAsset::class => [
+                    // Не импортим стили т.к. используем свой скомпилированный файл
+                    'css' => [],
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];
