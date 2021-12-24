@@ -4,14 +4,21 @@
     "keywords": [],
     "homepage": "https://makler.tau-edu.kz",
     "type": "project",
-    "license": "BSD-3-Clause",
-    "support": {
-        "issues": "https://github.com/yiisoft/yii2/issues?state=open",
-        "forum": "http://www.yiiframework.com/forum/",
-        "wiki": "http://www.yiiframework.com/wiki/",
-        "irc": "irc://irc.freenode.net/yii",
-        "source": "https://github.com/yiisoft/yii2"
-    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Titov Alexander",
+            "email": "fox@raidorev.tech",
+            "homepage": "raidorev.tech",
+            "role": "Developer"
+        },
+        {
+            "name": "Vitaliy Volynskiy",
+            "email": "i@vitalya.me",
+            "homepage": "vitalya.me",
+            "role": "Developer"
+        }
+    ],
     "minimum-stability": "stable",
     "require": {
         "php": ">=7.4.0",
