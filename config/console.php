@@ -1,7 +1,15 @@
 <?php
 
+use app\components\helpers\ConfigHelper;
+use yii\caching\FileCache;
+use yii\gii\Module as GiiModule;
+use yii\log\FileTarget;
+
+require_once __DIR__ . '/../components/helpers/ConfigHelper.php';
+
+ConfigHelper::load();
+
 $params = require __DIR__ . '/params.php';
-$db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic-console',
@@ -10,22 +18,21 @@ $config = [
     'controllerNamespace' => 'app\commands',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
         '@tests' => '@app/tests',
     ],
     'components' => [
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => FileCache::class,
         ],
         'log' => [
             'targets' => [
                 [
-                    'class' => 'yii\log\FileTarget',
+                    'class' => FileTarget::class,
                     'levels' => ['error', 'warning'],
                 ],
             ],
         ],
-        'db' => $db,
     ],
     'params' => $params,
     /*
@@ -41,7 +48,7 @@ if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
-        'class' => 'yii\gii\Module',
+        'class' => GiiModule::class,
     ];
 }
 
