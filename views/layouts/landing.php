@@ -6,18 +6,23 @@
 
 use app\assets\AppAsset;
 use app\widgets\LanguageDropdown;
+use kartik\icons\Icon;
 use yii\bootstrap4\Html;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\View;
 
 $this->title =
-    Yii::t('app', 'Маклер') .
-    ' | ' .
-    Yii::t('app', 'Универсистет Туран-Астана');
+    Yii::t("app", "Маклер") .
+    " | " .
+    Yii::t("app", "Универсистет Туран-Астана");
 
 AppAsset::register($this);
+Icon::map($this);
 
-$locales = ['ru' => 'Русский', 'kk' => 'Қазақ', 'en' => 'English'];
+$navItems = ArrayHelper::getValue(Yii::$app->params, "landing-nav-items", []);
+
+$locales = ["ru" => "Русский", "kk" => "Қазақ", "en" => "English"];
 
 // Убираем текущий язык
 $availableLocales = array_filter(
@@ -38,15 +43,15 @@ $availableLocales = array_filter(
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head(); ?>
 </head>
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column">
 <?php $this->beginBody(); ?>
 
 <nav class="navbar navbar-expand-sm navbar-dark sticky-top bg-primary">
     <div class="container">
-        <a class="navbar-brand" href="<?= Url::to(['/']) ?>">
+        <a class="navbar-brand" href="<?= Url::to(["/"]) ?>">
             <img src="/logo.png" width="50" height="50" alt="<?= Yii::t(
-                'app',
-                'Логотип'
+                "app",
+                "Логотип"
             ) ?>">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -56,6 +61,12 @@ $availableLocales = array_filter(
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto justify-content-end flex-grow-1">
+                <?php foreach ($navItems as $link => $text): ?>
+                    <li class="nav-item">
+                        <?= Html::a($text, $link, ["class" => ["nav-link"]]) ?>
+                    </li>
+                <?php endforeach; ?>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown"
@@ -63,8 +74,8 @@ $availableLocales = array_filter(
                         <?= $locales[Yii::$app->language] ?>
                     </a>
                     <?= LanguageDropdown::widget([
-                        'options' => [
-                            'aria' => ['labelledby' => 'navbarDropdown'],
+                        "options" => [
+                            "aria" => ["labelledby" => "navbarDropdown"],
                         ],
                     ]) ?>
                 </li>
@@ -73,18 +84,16 @@ $availableLocales = array_filter(
     </div>
 </nav>
 
-<main class="flex-grow-1">
+<main class="flex-grow-1 flex-shrink-0">
     <?= $content ?>
 </main>
 
-<footer class="footer">
-    <div class="container">
-        <div class="text-center py-3">
-            © <?= date('Y') ?> Copyright:
-            <a href="<?= Url::to(['/']) ?>">
-                <?= Yii::t('app', 'Универсистет Туран-Астана') ?>
-            </a>
-        </div>
+<footer class="bg-light">
+    <div class="text-center py-3">
+        © <?= date("Y") ?> Copyright:
+        <a href="<?= Url::to(["/"]) ?>">
+            <?= Yii::t("app", "Универсистет Туран-Астана") ?>
+        </a>
     </div>
 </footer>
 

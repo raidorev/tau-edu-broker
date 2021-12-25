@@ -1,10 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap");
 
 $primary: rgb(118, 38, 64);
+$dark: rgb(51, 51, 51);
 $body-color: rgb(51, 51, 51);
 
-$font-family-sans-serif: 'Montserrat', sans-serif;
+$font-family-sans-serif: "Montserrat", sans-serif;
 
 $dropdown-min-width: 0;
 
-@import '../../node_modules/bootstrap/scss/bootstrap';
+$link-hover-decoration: none;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  height: auto;
+  min-height: 100%;
+}
+
+a {
+  transition: color 0.15s;
+}
+
+.text-light {
+  a {
+    color: lighten($primary, 25%);
+
+    &:hover {
+      color: lighten($primary, 10%);
+    }
+  }
+
+  .title {
+    &::before {
+      background-color: lighten($primary, 25%);
+    }
+  }
+}
+
+.title {
+  position: relative;
+  padding-left: map-get($spacers, 3);
+  margin-bottom: map-get($spacers, 4);
+
+  &::before {
+    position: absolute;
+    content: "";
+    background-color: $primary;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0.5rem;
+  }
+}

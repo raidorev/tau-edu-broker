@@ -12,7 +12,7 @@ const isDevelopment = process.env.NODE_ENV === 'development'
 const isProduction = !isDevelopment
 
 const sourceGlobs = {
-  styles: './resources/styles/*.s[ac]ss',
+  styles: './resources/styles/**/*.s[ac]ss',
 }
 
 const sass = gulpSass(sassLib)
@@ -31,7 +31,7 @@ const compileSass = () =>
     .pipe(gulpIf(isProduction, postcss([autoprefixer()])))
     .pipe(gulpIf(isProduction, cleanCss()))
     .pipe(gulpIf(isDevelopment, sourcemaps.write('.')))
-    .pipe(gulp.dest('./dist/css'))
+    .pipe(gulp.dest('./web/dist/css'))
 
 const build = gulp.series(clean, gulp.parallel([compileSass]))
 

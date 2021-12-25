@@ -33,7 +33,7 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
-        '@dist' => '@app/dist',
+        '@dist' => '@app/web/dist',
     ],
     'components' => [
         'request' => [

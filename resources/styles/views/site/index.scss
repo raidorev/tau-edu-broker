@@ -1,0 +1,9 @@
+.section-intro {
+  background: url("https://picsum.photos/1920/1080") center center / cover
+    no-repeat fixed #fff;
+  height: calc(100vh - 76px);
+
+  &__text {
+    background-color: rgba(#fff, 0.7);
+  }
+}
