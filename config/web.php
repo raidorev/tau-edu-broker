@@ -15,6 +15,8 @@ ConfigHelper::load();
 
 $params = require __DIR__ . '/params.php';
 
+require_once __DIR__ . '/functions.php';
+
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
