@@ -9,13 +9,13 @@
         {
             "name": "Titov Alexander",
             "email": "fox@raidorev.tech",
-            "homepage": "raidorev.tech",
+            "homepage": "https://raidorev.tech",
             "role": "Developer"
         },
         {
             "name": "Vitaliy Volynskiy",
             "email": "i@vitalya.me",
-            "homepage": "vitalya.me",
+            "homepage": "https://vitalya.me",
             "role": "Developer"
         }
     ],
@@ -25,7 +25,8 @@
         "yiisoft/yii2": "~2.0.14",
         "yiisoft/yii2-bootstrap4": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
-        "vlucas/phpdotenv": "^5.4"
+        "vlucas/phpdotenv": "^5.4",
+        "codemix/yii2-localeurls": "^1.7"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",

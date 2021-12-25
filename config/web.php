@@ -1,7 +1,9 @@
 <?php
 
 use app\components\helpers\ConfigHelper;
+use app\components\LanguageSelector;
 use app\models\User;
+use codemix\localeurls\UrlManager;
 use yii\bootstrap4\BootstrapAsset;
 use yii\caching\FileCache;
 use yii\debug\Module as DebugModule;
@@ -20,8 +22,14 @@ require_once __DIR__ . '/functions.php';
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'language' => 'ru-RU',
-    'bootstrap' => ['log'],
+    'language' => 'ru',
+    'bootstrap' => [
+        'log',
+        [
+            'class' => LanguageSelector::class,
+            'supportedLanguages' => ['ru-RU', 'kk-KZ', 'en-US'],
+        ],
+    ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
@@ -55,9 +63,12 @@ $config = [
             ],
         ],
         'urlManager' => [
+            'class' => UrlManager::class,
+            'languages' => ['ru', 'kk', 'en'],
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,
+            'cache' => false,
             'rules' => [],
         ],
         'db' => ConfigHelper::createDbConfig('broker'),
