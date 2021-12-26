@@ -1,81 +1,114 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
-
 use app\assets\AppAsset;
-use app\widgets\Alert;
-use yii\bootstrap4\Breadcrumbs;
+use app\assets\MetisMenuAsset;
+use app\components\helpers\ViewHelper;
+use kartik\icons\Icon;
 use yii\bootstrap4\Html;
 use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
+use yii\web\View;
+use yii\widgets\Breadcrumbs;
+
+/**
+ * @var View $this
+ * @var string $content
+ */
 
 AppAsset::register($this);
+MetisMenuAsset::register($this);
+
+$this->registerCssFile('/dist/css/views/layouts/main.css');
+$this->registerJs("$('#aside-menu').metisMenu().show()",View::POS_READY);
+
+if (!$this->title) {
+    Yii::info('Страница не имеет заголовка');
+}
 ?>
-<?php $this->beginPage() ?>
+<?php $this->beginPage(); ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>" class="h-100">
+<html lang="<?= Yii::$app->language ?>">
+
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?= Html::csrfMetaTags() ?>
+    <?php if ($this->title): ?>
+        <title><?= Html::encode($this->title) ?>
+            – <?= Html::encode(Yii::t('app', Yii::$app->name)) ?></title>
+    <?php else: ?>
+        <title><?= Html::encode(Yii::t('app', Yii::$app->name)) ?></title>
+    <?php endif; ?>
+    <?php $this->head(); ?>
 </head>
-<body class="d-flex flex-column h-100">
-<?php $this->beginBody() ?>
 
-<header>
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
-    NavBar::end();
-    ?>
-</header>
+<body>
+<?php $this->beginBody(); ?>
 
-<main role="main" class="flex-shrink-0">
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+<div class="h-100 d-flex flex-column">
+    <nav>
+        <?php NavBar::begin([
+            'renderInnerContainer' => false,
+            'brandLabel' => Yii::t('app', Yii::$app->name),
+        ]); ?>
+        <?= Nav::widget([
+            'options' => ['class' => ['nav', 'justify-content-end', 'w-100']],
+            'items' => [
+                [
+                    'label' =>
+                        Icon::show('sign-in-alt') . Yii::t('app', 'Войти'),
+                    'url' => ['/site/login'],
+                    'linkOptions' => [
+                        'class' => ['nav-link', 'text-secondary'],
+                    ],
+                    'encode' => false,
+                    'visible' => Yii::$app->user->isGuest,
+                ],
+                [
+                    'label' =>
+                        Icon::show('sign-out-alt') . Yii::t('app', 'Выйти'),
+                    'url' => ['/site/logout'],
+                    'linkOptions' => [
+                        'class' => ['nav-link', 'text-secondary'],
+                        'data' => [
+                            'method' => 'post',
+                        ],
+                    ],
+                    'encode' => false,
+                    'visible' => !Yii::$app->user->isGuest,
+                ],
+            ],
         ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-    </div>
-</main>
+        <?php NavBar::end(); ?>
+    </nav>
 
-<footer class="footer mt-auto py-3 text-muted">
-    <div class="container">
-        <p class="float-left">&copy; My Company <?= date('Y') ?></p>
-        <p class="float-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
+    <div class="d-flex flex-auto">
+        <aside class="bg-light">
+            <?= ViewHelper::generateAsideNav() ?>
+        </aside>
 
-<?php $this->endBody() ?>
+        <main class='my-3 container-fluid'>
+            <?= Breadcrumbs::widget([
+                'options' => ['class' => ['breadcrumb', 'bg-light']],
+                'itemTemplate' => Html::tag('li', '<i>{link}</i>', [
+                    'class' => ['breadcrumb-item'],
+                ]),
+                'activeItemTemplate' => Html::tag('li', '{link}', [
+                    'class' => ['breadcrumb-item', 'active'],
+                ]),
+                'links' => $this->params['breadcrumbs'] ?? [],
+            ]) ?>
+
+            <?= ViewHelper::generateAlerts() ?>
+
+            <?= $content ?>
+        </main>
+    </div>
+</div>
+
+<?php $this->endBody(); ?>
 </body>
+
 </html>
-<?php $this->endPage() ?>
+<?php $this->endPage(); ?>

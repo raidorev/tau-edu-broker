@@ -1,0 +1,56 @@
+@use '../../main' as vars;
+
+:root {
+  --aside-width: 275px;
+}
+
+aside {
+  flex: 0 0 var(--aside-width);
+}
+
+main {
+  width: calc(100% - var(--aside-width));
+}
+
+.sidebar-nav {
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .metismenu {
+    display: flex;
+    flex-direction: column;
+
+    > li {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    a {
+      position: relative;
+      display: block;
+      padding: 0.5rem 1rem;
+      transition: all 0.3s ease-out;
+      text-decoration: none;
+    }
+
+    ul a {
+      padding: 10px 30px;
+    }
+
+    ul ul a {
+      padding: 10px 15px 10px 45px;
+    }
+
+    a:hover,
+    a:focus,
+    a:active,
+    .mm-active > a {
+      background: darken(vars.$light, 15%);
+      text-decoration: none;
+    }
+  }
+}

@@ -28,7 +28,9 @@
         "vlucas/phpdotenv": "^5.4",
         "codemix/yii2-localeurls": "^1.7",
         "kartik-v/yii2-icons": "@dev",
-        "mdmsoft/yii2-admin": "2.x-dev"
+        "mdmsoft/yii2-admin": "2.x-dev",
+        "npm-asset/metismenu": "^3.0",
+        "kartik-v/yii2-widget-alert": "dev-master"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
