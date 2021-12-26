@@ -17,6 +17,7 @@ use yii\widgets\Breadcrumbs;
 
 AppAsset::register($this);
 MetisMenuAsset::register($this);
+Icon::map($this);
 
 $this->registerCssFile('/dist/css/views/layouts/main.css');
 $this->registerJs("$('#aside-menu').metisMenu().show()",View::POS_READY);
