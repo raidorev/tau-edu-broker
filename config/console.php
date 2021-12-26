@@ -1,6 +1,7 @@
 <?php
 
 use app\components\helpers\ConfigHelper;
+use mdm\admin\components\DbManager;
 use yii\caching\FileCache;
 use yii\gii\Module as GiiModule;
 use yii\log\FileTarget;
@@ -33,6 +34,10 @@ $config = [
                 ],
             ],
         ],
+        "authManager" => [
+            "class" => DbManager::class,
+        ],
+        "db" => ConfigHelper::createDbConfig("broker"),
     ],
     'params' => $params,
     /*

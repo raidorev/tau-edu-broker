@@ -1,8 +1,12 @@
 <?php
 
+use app\models\auth\User;
+use mdm\admin\controllers\AssignmentController;
+use mdm\admin\components\AccessControl;
+use yii\rbac\DbManager;
+use mdm\admin\Module;
 use app\components\helpers\ConfigHelper;
 use app\components\LanguageSelector;
-use app\models\User;
 use codemix\localeurls\UrlManager;
 use yii\bootstrap4\BootstrapAsset;
 use yii\caching\FileCache;
@@ -35,6 +39,18 @@ $config = [
         '@npm' => '@vendor/npm-asset',
         '@dist' => '@app/web/dist',
     ],
+    'modules' => [
+        'admin' => [
+            'class' => Module::class,
+            'controllerMap' => [
+                'assignment' => [
+                    'class' => AssignmentController::class,
+                    'userClassName' => User::class,
+                    'usernameField' => 'email',
+                ],
+            ],
+        ],
+    ],
     'components' => [
         'request' => [
             'cookieValidationKey' => $_ENV['COOKIE_VALIDATION_KEY'],
@@ -44,7 +60,10 @@ $config = [
         ],
         'user' => [
             'identityClass' => User::class,
-            'enableAutoLogin' => true,
+            'loginUrl' => ['admin/user/login'],
+        ],
+        'authManager' => [
+            'class' => DbManager::class,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -80,6 +99,19 @@ $config = [
                     'css' => [],
                 ],
             ],
+        ],
+    ],
+    'as access' => [
+        'class' => AccessControl::class,
+        'allowActions' => [
+            'site/*',
+            'admin/*',
+            'some-controller/some-action',
+            // The actions listed here will be allowed to everyone including guests.
+            // So, 'admin/*' should not appear here in the production, of course.
+            // But in the earlier stages of your development, you may probably want to
+            // add a lot of actions here until you finally completed setting up rbac,
+            // otherwise you may not even take a first step.
         ],
     ],
     'params' => $params,

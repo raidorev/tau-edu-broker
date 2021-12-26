@@ -1,20 +1,25 @@
 <?php
 /**
  * @var View $this
+ * @var RegisterForm $register
+ * @var LoginForm $login
  */
 
+use app\models\auth\LoginForm;
+use app\models\auth\RegisterForm;
 use kartik\icons\Icon;
+use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
 use yii\web\View;
 
-$this->title = Yii::t("app", "Универсистет Туран-Астана");
-$this->registerCssFile("/dist/css/views/site/index.css");
+$this->title = Yii::t('app', 'Универсистет Туран-Астана');
+$this->registerCssFile('/dist/css/views/site/index.css');
 
-Yii::$app->params["landing-nav-items"] = [
-    "#offer" => Yii::t("app", "Публичная оферта"),
-    "#registration" => Yii::t("app", "Регистрация"),
-    "#login" => Yii::t("app", "Вход"),
-    "#contacts" => Yii::t("app", "Контакты"),
+Yii::$app->params['landing-nav-items'] = [
+    '#offer' => Yii::t('app', 'Публичная оферта'),
+    '#registration' => Yii::t('app', 'Регистрация'),
+    '#login' => Yii::t('app', 'Вход'),
+    '#contacts' => Yii::t('app', 'Контакты'),
 ];
 ?>
 
@@ -22,12 +27,12 @@ Yii::$app->params["landing-nav-items"] = [
     <div class="container-fluid py-3 section-intro__text">
         <div class="container px-0">
             <h1>
-                <?= Yii::t("app", "Маклер TAU") ?>
+                <?= Yii::t('app', 'Маклер TAU') ?>
             </h1>
             <div class="lead">
                 <?= Yii::t(
-                    "app",
-                    "Привлекая образование - инвестируй в свое будущее!"
+                    'app',
+                    'Привлекая образование - инвестируй в свое будущее!'
                 ) ?>
             </div>
         </div>
@@ -37,7 +42,7 @@ Yii::$app->params["landing-nav-items"] = [
 <section class="bg-dark text-light py-5">
     <div class="container">
         <h2 id="offer" class="title">
-            <?= Yii::t("app", "Публичная оферта") ?>
+            <?= Yii::t('app', 'Публичная оферта') ?>
         </h2>
 
         <p class="text-center">
@@ -45,8 +50,8 @@ Yii::$app->params["landing-nav-items"] = [
         </p>
         <div class="text-center">
             <div class="btn btn-primary"><?= Yii::t(
-                "app",
-                "Публичная оферта"
+                'app',
+                'Публичная оферта'
             ) ?></div>
         </div>
     </div>
@@ -57,74 +62,37 @@ Yii::$app->params["landing-nav-items"] = [
         <div class="row">
             <div class="col-12 col-md-6">
                 <h2 id="registration" class="title">
-                    <?= Yii::t("app", "Регистрация") ?>
+                    <?= Yii::t('app', 'Регистрация') ?>
                 </h2>
 
-                <form>
-                    <div class="form-row">
-                        <div class="col-12 form-group">
-                            <label for="surname"><?= Yii::t(
-                                "app",
-                                "Фамилия"
-                            ) ?></label>
-                            <input type="text" class="form-control" id="surname" placeholder="<?= Yii::t(
-                                "app",
-                                "Петров"
-                            ) ?>">
-                        </div>
-                        <div class="col-12 form-group">
-                            <label for="name"><?= Yii::t(
-                                "app",
-                                "Имя"
-                            ) ?></label>
-                            <input type="text" class="form-control" id="name" placeholder="<?= Yii::t(
-                                "app",
-                                "Петр"
-                            ) ?>">
-                        </div>
-                        <div class="col-12 form-group">
-                            <label for="patronymic"><?= Yii::t(
-                                "app",
-                                "Отчество"
-                            ) ?></label>
-                            <input type="text" class="form-control" id="patronymic" placeholder="<?= Yii::t(
-                                "app",
-                                "Петрович"
-                            ) ?>">
-                        </div>
-                        <div class="col-12 form-group">
-                            <label for="email"><?= Yii::t(
-                                "app",
-                                "Email"
-                            ) ?></label>
-                            <input type="email" class="form-control" id="email" placeholder="<?= Yii::t(
-                                "app",
-                                "me@domain.tld"
-                            ) ?>">
-                        </div>
-                        <div class="col-12 form-group">
-                            <label for="password"><?= Yii::t(
-                                "app",
-                                "Пароль"
-                            ) ?></label>
-                            <input type="password" class="form-control" id="password">
-                        </div>
-                        <div class="col-12 form-group">
-                            <label for="password-repeat"><?= Yii::t(
-                                "app",
-                                "Повторите пароль"
-                            ) ?></label>
-                            <input type="password" class="form-control" id="password-repeat">
-                        </div>
+                <?php $form = ActiveForm::begin(['action' => ['site/register']]); ?>
+                <?= $form->field($register, 'last_name', [
+                    'inputOptions' => [
+                        'placeholder' => Yii::t('app', 'Иванов'),
+                    ],
+                ]) ?>
+                <?= $form->field($register, 'first_name', [
+                    'inputOptions' => ['placeholder' => Yii::t('app', 'Иван')],
+                ]) ?>
+                <?= $form->field($register, 'patronymic', [
+                    'inputOptions' => [
+                        'placeholder' => Yii::t('app', 'Иванович'),
+                    ],
+                ]) ?>
+                <?= $form->field($register, 'email', [
+                    'inputOptions' => [
+                        'placeholder' => Yii::t('app', 'me@domain.tld'),
+                    ],
+                ]) ?>
+                <?= $form->field($register, 'password')->passwordInput() ?>
+                <?= $form
+                    ->field($register, 'retypePassword')
+                    ->passwordInput() ?>
 
-                        <div class="col-12">
-                            <button class="btn btn-primary"><?= Yii::t(
-                                "app",
-                                "Зарегистрироваться"
-                            ) ?></button>
-                        </div>
-                    </div>
-                </form>
+                <?= Html::submitButton(Yii::t('app', 'Зарегистрироваться'), [
+                    'class' => ['btn', 'btn-primary'],
+                ]) ?>
+                <?php ActiveForm::end(); ?>
             </div>
 
             <div class="col-12 d-md-none">
@@ -133,37 +101,20 @@ Yii::$app->params["landing-nav-items"] = [
 
             <div class="col-12 col-md-6">
                 <h2 id="login" class="title">
-                    <?= Yii::t("app", "Вход") ?>
+                    <?= Yii::t('app', 'Вход') ?>
                 </h2>
 
-                <form>
-                    <div class="form-row">
-                        <div class="col-12 form-group">
-                            <label for="email"><?= Yii::t(
-                                "app",
-                                "Email"
-                            ) ?></label>
-                            <input type="email" class="form-control" id="email" placeholder="<?= Yii::t(
-                                "app",
-                                "me@domain.tld"
-                            ) ?>">
-                        </div>
-                        <div class="col-12 form-group">
-                            <label for="password"><?= Yii::t(
-                                "app",
-                                "Пароль"
-                            ) ?></label>
-                            <input type="password" class="form-control" id="password">
-                        </div>
-
-                        <div class="col-12">
-                            <button class="btn btn-primary"><?= Yii::t(
-                                "app",
-                                "Войти"
-                            ) ?></button>
-                        </div>
-                    </div>
-                </form>
+                <?php $form = ActiveForm::begin(['action' => ['site/login']]); ?>
+                <?= $form->field($login, 'email', [
+                    'inputOptions' => [
+                        'placeholder' => 'me@domain.tld',
+                    ],
+                ]) ?>
+                <?= $form->field($login, 'password')->passwordInput() ?>
+                <?= $form->field($login, 'rememberMe')->checkbox() ?>
+                
+                <?= Html::submitButton(Yii::t('app', 'Войти'), ['class' => ['btn', 'btn-primary']]) ?>
+                <?php ActiveForm::end(); ?>
             </div>
         </div>
     </div>
@@ -171,30 +122,30 @@ Yii::$app->params["landing-nav-items"] = [
 
 <section class="bg-dark text-light py-5">
     <div class="container">
-        <h2 id="contacts" class="title"><?= Yii::t("app", "Контакты") ?></h2>
+        <h2 id="contacts" class="title"><?= Yii::t('app', 'Контакты') ?></h2>
 
         <div class="row">
             <div class="col-12 col-md-4 mb-3 mb-md-0">
                 <p>
-                    <?= Icon::show("map-marker-alt") ?>
-                    <?= Yii::t("app", "ул.") ?> Ықылас Дүкенұлы, 29
+                    <?= Icon::show('map-marker-alt') ?>
+                    <?= Yii::t('app', 'ул.') ?> Ықылас Дүкенұлы, 29
                 </p>
                 <p>
-                    <?= Icon::show("envelope") ?>
-                    <?= Html::mailto("info@tau-edu.kz") ?>
+                    <?= Icon::show('envelope') ?>
+                    <?= Html::mailto('info@tau-edu.kz') ?>
                 </p>
                 <p>
-                    <?= Icon::show("phone") ?>
+                    <?= Icon::show('phone') ?>
                     <a href="tel:+77182398118">
                         +7 (7182) 39 81 18
                     </a>
                 </p>
                 <p>
                     <?= Yii::t(
-                        "app",
-                        "Контактная почта отдела маркетинга и приемной комиссии"
+                        'app',
+                        'Контактная почта отдела маркетинга и приемной комиссии'
                     ) ?>:
-                    <?= Html::mailto("admissions@tau-edu.kz") ?>
+                    <?= Html::mailto('admissions@tau-edu.kz') ?>
                 </p>
             </div>
             <div class="col-12 col-md-8">

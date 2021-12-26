@@ -27,7 +27,8 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "vlucas/phpdotenv": "^5.4",
         "codemix/yii2-localeurls": "^1.7",
-        "kartik-v/yii2-icons": "@dev"
+        "kartik-v/yii2-icons": "@dev",
+        "mdmsoft/yii2-admin": "2.x-dev"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
