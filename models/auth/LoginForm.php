@@ -18,6 +18,15 @@ class LoginForm extends Model
 
     private ?User $_user = null;
 
+    public function attributeLabels(): array
+    {
+        return [
+            'email' => Yii::t('app', 'Email'),
+            'password' => Yii::t('app', 'Пароль'),
+            'rememberMe' => Yii::t('app', 'Запомнить меня'),
+        ];
+    }
+
     public function rules(): array
     {
         return [
