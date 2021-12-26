@@ -31,7 +31,7 @@ class SiteController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'register' => ['post'],
-                    'login' => ['post'],
+                    'login' => ['get', 'post'],
                     'logout' => ['post'],
                 ],
             ],
@@ -71,15 +71,16 @@ class SiteController extends Controller
         return $this->refresh();
     }
 
-    public function actionLogin(): Response
+    public function actionLogin()
     {
         $login = new LoginForm();
         if ($login->load(Yii::$app->request->post()) && $login->login()) {
             // TODO: Redirect to admin panel
             dd(Yii::$app->user);
+            return $this->refresh();
         }
 
-        return $this->refresh();
+        return $this->render('login', ['login' => $login]);
     }
 
     public function actionLogout(): Response
