@@ -81,6 +81,10 @@ class RegisterForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         if ($user->save()) {
+            $assignment = new AuthAssignment();
+            $assignment->user_id = $user->id;
+            $assignment->item_name = 'Маклер';
+            $assignment->save();
             return $user;
         }
 
