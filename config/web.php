@@ -1,10 +1,11 @@
 <?php
 
 use app\models\auth\User;
+use kartik\grid\Module as GridModule;
 use mdm\admin\controllers\AssignmentController;
 use mdm\admin\components\AccessControl;
 use yii\rbac\DbManager;
-use mdm\admin\Module;
+use mdm\admin\Module as AdminModule;
 use app\components\helpers\ConfigHelper;
 use app\components\LanguageSelector;
 use codemix\localeurls\UrlManager;
@@ -42,7 +43,7 @@ $config = [
     ],
     'modules' => [
         'admin' => [
-            'class' => Module::class,
+            'class' => AdminModule::class,
             'controllerMap' => [
                 'assignment' => [
                     'class' => AssignmentController::class,
@@ -50,6 +51,9 @@ $config = [
                     'usernameField' => 'email',
                 ],
             ],
+        ],
+        'gridview' => [
+            'class' => GridModule::class,
         ],
     ],
     'components' => [
