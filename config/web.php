@@ -7,7 +7,7 @@ use mdm\admin\components\AccessControl;
 use yii\rbac\DbManager;
 use mdm\admin\Module as AdminModule;
 use app\components\helpers\ConfigHelper;
-use app\components\LanguageSelector;
+use app\components\helpers\i18n\LanguageSelector;
 use codemix\localeurls\UrlManager;
 use yii\bootstrap4\BootstrapAsset;
 use yii\caching\FileCache;

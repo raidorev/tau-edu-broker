@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components;
+namespace app\components\helpers\i18n;
 
 use yii\base\BootstrapInterface;
 
