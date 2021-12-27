@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Хост: 127.0.0.1
--- Время создания: Дек 27 2021 г., 12:56
--- Версия сервера: 10.4.20-MariaDB
--- Версия PHP: 7.4.22
+-- Host: 127.0.0.1
+-- Generation Time: Dec 27, 2021 at 05:54 PM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 7.4.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- База данных: `broker`
+-- Database: `broker`
 --
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `auth_assignment`
+-- Table structure for table `auth_assignment`
 --
 
 CREATE TABLE `auth_assignment` (
@@ -34,7 +34,7 @@ CREATE TABLE `auth_assignment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Дамп данных таблицы `auth_assignment`
+-- Dumping data for table `auth_assignment`
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
@@ -44,7 +44,7 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `auth_item`
+-- Table structure for table `auth_item`
 --
 
 CREATE TABLE `auth_item` (
@@ -58,7 +58,7 @@ CREATE TABLE `auth_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Дамп данных таблицы `auth_item`
+-- Dumping data for table `auth_item`
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
@@ -73,7 +73,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `auth_item_child`
+-- Table structure for table `auth_item_child`
 --
 
 CREATE TABLE `auth_item_child` (
@@ -82,7 +82,7 @@ CREATE TABLE `auth_item_child` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Дамп данных таблицы `auth_item_child`
+-- Dumping data for table `auth_item_child`
 --
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
@@ -93,7 +93,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `auth_rule`
+-- Table structure for table `auth_rule`
 --
 
 CREATE TABLE `auth_rule` (
@@ -106,29 +106,31 @@ CREATE TABLE `auth_rule` (
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `educational_program`
+-- Table structure for table `educational_program`
 --
 
 CREATE TABLE `educational_program` (
   `id` int(11) NOT NULL,
   `code` varchar(20) NOT NULL,
+  `educational_stage_id` int(11) NOT NULL,
   `name_ru` varchar(50) NOT NULL,
   `name_kk` varchar(50) DEFAULT NULL,
   `name_en` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Дамп данных таблицы `educational_program`
+-- Dumping data for table `educational_program`
 --
 
-INSERT INTO `educational_program` (`id`, `code`, `name_ru`, `name_kk`, `name_en`) VALUES
-(1, '6B06102', 'Информационные системы', NULL, NULL),
-(2, '6B04201', 'Юриспруденция', '', '');
+INSERT INTO `educational_program` (`id`, `code`, `educational_stage_id`, `name_ru`, `name_kk`, `name_en`) VALUES
+(1, '6B06102', 1, 'Информационные системы', '', 'Information Technology'),
+(2, '6B04201', 1, 'Юриспруденция', '', ''),
+(3, '6B01504', 1, 'Биология', 'Биология', 'Biology');
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `educational_stage`
+-- Table structure for table `educational_stage`
 --
 
 CREATE TABLE `educational_stage` (
@@ -139,17 +141,17 @@ CREATE TABLE `educational_stage` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Дамп данных таблицы `educational_stage`
+-- Dumping data for table `educational_stage`
 --
 
 INSERT INTO `educational_stage` (`id`, `name_ru`, `name_kk`, `name_en`) VALUES
-(1, 'бакалавр', NULL, NULL),
-(2, 'магистр', NULL, NULL);
+(1, 'бакалавр', NULL, 'bachelor'),
+(2, 'магистр', NULL, 'magister');
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `entrant`
+-- Table structure for table `entrant`
 --
 
 CREATE TABLE `entrant` (
@@ -157,7 +159,6 @@ CREATE TABLE `entrant` (
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `patronymic` varchar(50) NOT NULL,
-  `future_educational_stage_id` int(11) NOT NULL,
   `future_educational_program_id` int(11) NOT NULL,
   `phone_number` varchar(20) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
@@ -166,17 +167,18 @@ CREATE TABLE `entrant` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Дамп данных таблицы `entrant`
+-- Dumping data for table `entrant`
 --
 
-INSERT INTO `entrant` (`id`, `first_name`, `last_name`, `patronymic`, `future_educational_stage_id`, `future_educational_program_id`, `phone_number`, `email`, `sex_id`, `birthdate`) VALUES
-(1, 'Петр', 'Петров', 'Петрович', 1, 1, '+7 812 333 4411', 'asd@asd.asd', 1, '0000-00-00'),
-(2, 'Марк', 'Марков', '', 1, 2, '+7 12312312312', '', 1, NULL);
+INSERT INTO `entrant` (`id`, `first_name`, `last_name`, `patronymic`, `future_educational_program_id`, `phone_number`, `email`, `sex_id`, `birthdate`) VALUES
+(1, 'Петр', 'Петров', 'Петрович', 1, '+7 812 333 4411', 'asd@asd.asd', 1, '0000-00-00'),
+(2, 'Марк', 'Марков', '', 2, '+7 12312312312', '', 1, NULL),
+(3, 'Марк', 'Марков', 'Маркович', 1, '1231231232', '', 1, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `menu`
+-- Table structure for table `menu`
 --
 
 CREATE TABLE `menu` (
@@ -189,7 +191,7 @@ CREATE TABLE `menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `menu`
+-- Dumping data for table `menu`
 --
 
 INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
@@ -201,7 +203,7 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `migration`
+-- Table structure for table `migration`
 --
 
 CREATE TABLE `migration` (
@@ -210,7 +212,7 @@ CREATE TABLE `migration` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Дамп данных таблицы `migration`
+-- Dumping data for table `migration`
 --
 
 INSERT INTO `migration` (`version`, `apply_time`) VALUES
@@ -225,7 +227,7 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `sex`
+-- Table structure for table `sex`
 --
 
 CREATE TABLE `sex` (
@@ -236,7 +238,7 @@ CREATE TABLE `sex` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Дамп данных таблицы `sex`
+-- Dumping data for table `sex`
 --
 
 INSERT INTO `sex` (`id`, `name_ru`, `name_kk`, `name_en`) VALUES
@@ -246,7 +248,7 @@ INSERT INTO `sex` (`id`, `name_ru`, `name_kk`, `name_en`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -264,7 +266,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Дамп данных таблицы `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `email`, `first_name`, `last_name`, `patronymic`, `auth_key`, `password_hash`, `password_reset_token`, `status`, `created_at`, `updated_at`) VALUES
@@ -276,18 +278,18 @@ INSERT INTO `user` (`id`, `email`, `first_name`, `last_name`, `patronymic`, `aut
 (7, 'sadf@asd.as', 'Bb', 'Aa', '', 'e5sVUo3Hbq6LOjZQuy52bKujwzd-7oxQ', '$2y$13$LQqm7Ihs05BRWlp.s.OANu1zR2PVv20MJa1EqC9rEu1SyuBbz/oCi', NULL, 10, 1640597430, 1640597430);
 
 --
--- Индексы сохранённых таблиц
+-- Indexes for dumped tables
 --
 
 --
--- Индексы таблицы `auth_assignment`
+-- Indexes for table `auth_assignment`
 --
 ALTER TABLE `auth_assignment`
   ADD PRIMARY KEY (`item_name`,`user_id`),
   ADD KEY `idx-auth_assignment-user_id` (`user_id`);
 
 --
--- Индексы таблицы `auth_item`
+-- Indexes for table `auth_item`
 --
 ALTER TABLE `auth_item`
   ADD PRIMARY KEY (`name`),
@@ -295,126 +297,142 @@ ALTER TABLE `auth_item`
   ADD KEY `idx-auth_item-type` (`type`);
 
 --
--- Индексы таблицы `auth_item_child`
+-- Indexes for table `auth_item_child`
 --
 ALTER TABLE `auth_item_child`
   ADD PRIMARY KEY (`parent`,`child`),
   ADD KEY `child` (`child`);
 
 --
--- Индексы таблицы `auth_rule`
+-- Indexes for table `auth_rule`
 --
 ALTER TABLE `auth_rule`
   ADD PRIMARY KEY (`name`);
 
 --
--- Индексы таблицы `educational_program`
+-- Indexes for table `educational_program`
 --
 ALTER TABLE `educational_program`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `educational_stage_id` (`educational_stage_id`) USING BTREE;
 
 --
--- Индексы таблицы `educational_stage`
+-- Indexes for table `educational_stage`
 --
 ALTER TABLE `educational_stage`
   ADD PRIMARY KEY (`id`);
 
 --
--- Индексы таблицы `entrant`
+-- Indexes for table `entrant`
 --
 ALTER TABLE `entrant`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `future_educational_program_id` (`future_educational_program_id`),
+  ADD KEY `sex_id` (`sex_id`);
 
 --
--- Индексы таблицы `menu`
+-- Indexes for table `menu`
 --
 ALTER TABLE `menu`
   ADD PRIMARY KEY (`id`),
   ADD KEY `parent` (`parent`);
 
 --
--- Индексы таблицы `migration`
+-- Indexes for table `migration`
 --
 ALTER TABLE `migration`
   ADD PRIMARY KEY (`version`);
 
 --
--- Индексы таблицы `sex`
+-- Indexes for table `sex`
 --
 ALTER TABLE `sex`
   ADD PRIMARY KEY (`id`);
 
 --
--- Индексы таблицы `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT для сохранённых таблиц
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT для таблицы `educational_program`
+-- AUTO_INCREMENT for table `educational_program`
 --
 ALTER TABLE `educational_program`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT для таблицы `educational_stage`
+-- AUTO_INCREMENT for table `educational_stage`
 --
 ALTER TABLE `educational_stage`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT для таблицы `entrant`
+-- AUTO_INCREMENT for table `entrant`
 --
 ALTER TABLE `entrant`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT для таблицы `menu`
+-- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT для таблицы `sex`
+-- AUTO_INCREMENT for table `sex`
 --
 ALTER TABLE `sex`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT для таблицы `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- Ограничения внешнего ключа сохраненных таблиц
+-- Constraints for dumped tables
 --
 
 --
--- Ограничения внешнего ключа таблицы `auth_assignment`
+-- Constraints for table `auth_assignment`
 --
 ALTER TABLE `auth_assignment`
   ADD CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `auth_item`
+-- Constraints for table `auth_item`
 --
 ALTER TABLE `auth_item`
   ADD CONSTRAINT `auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `auth_item_child`
+-- Constraints for table `auth_item_child`
 --
 ALTER TABLE `auth_item_child`
   ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `menu`
+-- Constraints for table `educational_program`
+--
+ALTER TABLE `educational_program`
+  ADD CONSTRAINT `educational_program_ibfk_1` FOREIGN KEY (`educational_stage_id`) REFERENCES `educational_stage` (`id`);
+
+--
+-- Constraints for table `entrant`
+--
+ALTER TABLE `entrant`
+  ADD CONSTRAINT `entrant_ibfk_1` FOREIGN KEY (`sex_id`) REFERENCES `sex` (`id`),
+  ADD CONSTRAINT `entrant_ibfk_2` FOREIGN KEY (`future_educational_program_id`) REFERENCES `educational_program` (`id`);
+
+--
+-- Constraints for table `menu`
 --
 ALTER TABLE `menu`
   ADD CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `menu` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
