@@ -18,6 +18,13 @@ class LanguageDropdown extends Dropdown
     {
         parent::init();
 
+        $this->items = self::getItems();
+    }
+
+    public static function getItems()
+    {
+        $items = [];
+
         $appLanguage = Yii::$app->language;
 
         /** @var string[] $languages */
@@ -36,11 +43,13 @@ class LanguageDropdown extends Dropdown
                 $language = substr($language, 0, 2);
             }
 
-            $this->items[] = [
+            $items[] = [
                 'label' => self::label($language),
                 'url' => Url::current(['language' => $language]),
             ];
         }
+
+        return $items;
     }
 
     public static function label($code)

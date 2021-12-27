@@ -3,6 +3,7 @@
 use app\assets\AppAsset;
 use app\assets\MetisMenuAsset;
 use app\components\helpers\ViewHelper;
+use app\widgets\LanguageDropdown;
 use kartik\icons\Icon;
 use yii\bootstrap4\Html;
 use yii\bootstrap4\Nav;
@@ -11,7 +12,7 @@ use yii\web\View;
 use yii\widgets\Breadcrumbs;
 
 /**
- * @var View $this
+ * @var View   $this
  * @var string $content
  */
 
@@ -20,11 +21,13 @@ MetisMenuAsset::register($this);
 Icon::map($this);
 
 $this->registerCssFile('/dist/css/views/layouts/main.css');
-$this->registerJs("$('#aside-menu').metisMenu().show()",View::POS_READY);
+$this->registerJs("$('#aside-menu').metisMenu().show()", View::POS_READY);
 
 if (!$this->title) {
     Yii::info('Страница не имеет заголовка');
 }
+
+$locales = ['ru' => 'Русский', 'kk' => 'Қазақ', 'en' => 'English'];
 ?>
 <?php $this->beginPage(); ?>
 <!DOCTYPE html>
@@ -56,6 +59,13 @@ if (!$this->title) {
         <?= Nav::widget([
             'options' => ['class' => ['nav', 'justify-content-end', 'w-100']],
             'items' => [
+                [
+                    'label' => $locales[Yii::$app->language],
+                    'items' => LanguageDropdown::getItems(),
+                    'linkOptions' => [
+                        'class' => ['nav-link', 'text-secondary'],
+                    ],
+                ],
                 [
                     'label' =>
                         Icon::show('sign-in-alt') . Yii::t('app', 'Войти'),
