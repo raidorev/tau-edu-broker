@@ -67,7 +67,7 @@ class SiteController extends Controller
             return $this->redirect(['entrants/index']);
         }
 
-        return $this->refresh();
+        return $this->redirect(Yii::$app->request->referrer ?: ['/site/index']);
     }
 
     public function actionLogin()
