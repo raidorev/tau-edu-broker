@@ -47,7 +47,7 @@ $locales = ['ru' => 'Русский', 'kk' => 'Қазақ', 'en' => 'English'];
     <?php $this->head(); ?>
 </head>
 
-<body class="d-flex h-100">
+<body class="d-flex h-100 flex-column">
 <?php $this->beginBody(); ?>
 
 <div class="h-100 d-flex flex-column">
