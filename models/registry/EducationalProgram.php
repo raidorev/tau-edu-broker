@@ -2,6 +2,7 @@
 
 namespace app\models\registry;
 
+use app\components\helpers\i18n\TranslatableModelTrait;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -11,12 +12,22 @@ use yii\db\ActiveRecord;
  * @property string $name_ru
  * @property string|null $name_kk
  * @property string|null $name_en
+ *
+ * @property-read string $name
+ * @property-read string $fullname
  */
 class EducationalProgram extends ActiveRecord
 {
+    use TranslatableModelTrait;
+
     public static function tableName(): string
     {
         return 'educational_program';
+    }
+
+    public static function find(): EducationalProgramQuery
+    {
+        return new EducationalProgramQuery(static::class);
     }
 
     public function rules(): array
@@ -38,5 +49,10 @@ class EducationalProgram extends ActiveRecord
             'name_kk' => Yii::t('app', 'Наименование (каз.)'),
             'name_en' => Yii::t('app', 'Наименование (анг.)'),
         ];
+    }
+
+    public function getFullname()
+    {
+        return "$this->code «{$this->name}»";
     }
 }

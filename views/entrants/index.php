@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @var View               $this
- * @var EntrantSearch      $searchModel
+ * @var View $this
+ * @var EntrantSearch $searchModel
  * @var ActiveDataProvider $dataProvider
  */
 
@@ -69,11 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'future_educational_program_id',
             'value' => 'futureEducationalProgram.code',
             'filterType' => GridView::FILTER_SELECT2,
-            'filter' => ArrayHelper::map(
-                EducationalProgram::find()->all(),
-                'id',
-                'code'
-            ),
+            'filter' => EducationalProgram::find()->selectList(),
             'filterWidgetOptions' => [
                 'options' => [
                     'placeholder' => Yii::t('app', 'Выберите ОП'),
@@ -87,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'sex_id',
             'value' => 'sex.name_ru',
             'filterType' => GridView::FILTER_SELECT2,
-            'filter' => ArrayHelper::map(Sex::find()->all(), 'id', 'name_ru'),
+            'filter' => Sex::find()->selectList(),
             'filterWidgetOptions' => [
                 'options' => [
                     'placeholder' => Yii::t('app', 'Выберите пол'),

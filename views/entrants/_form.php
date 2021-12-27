@@ -14,7 +14,6 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\bootstrap4\ActiveForm;
-
 ?>
 
 <?php $form = ActiveForm::begin(); ?>
@@ -50,13 +49,7 @@ use yii\bootstrap4\ActiveForm;
         <?= $form
             ->field($model, 'future_educational_program_id')
             ->widget(Select2::class, [
-                'data' => ArrayHelper::map(
-                    EducationalProgram::find()->all(),
-                    'id',
-                    static function (EducationalProgram $ep) {
-                        return "$ep->code $ep->name_ru";
-                    }
-                ),
+                'data' => EducationalProgram::find()->selectList(),
             ]) ?>
     </div>
     <div class="col-12 col-md-6">
@@ -69,11 +62,11 @@ use yii\bootstrap4\ActiveForm;
     </div>
     <div class="col-12 col-md-6">
         <?= $form->field($model, 'sex_id')->widget(Select2::class, [
-            'data' => ArrayHelper::map(Sex::find()->all(), 'id', 'name_ru'),
+            'data' => Sex::find()->selectList(),
         ]) ?>
     </div>
     <div class="col-12 col-md-6">
-        <?= $form->field($model, 'birthdate')->widget(DatePicker::class,) ?>
+        <?= $form->field($model, 'birthdate')->widget(DatePicker::class) ?>
     </div>
 
     <div class="col-12">

@@ -2,6 +2,7 @@
 
 namespace app\models\registry;
 
+use app\components\helpers\i18n\TranslatableModelTrait;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -13,9 +14,16 @@ use yii\db\ActiveRecord;
  */
 class Sex extends ActiveRecord
 {
+    use TranslatableModelTrait;
+
     public static function tableName(): string
     {
         return 'sex';
+    }
+
+    public static function find(): SexQuery
+    {
+        return new SexQuery(static::class);
     }
 
     public function rules(): array
