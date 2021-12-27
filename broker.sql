@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 27 2021 г., 10:37
+-- Время создания: Дек 27 2021 г., 12:56
 -- Версия сервера: 10.4.20-MariaDB
 -- Версия PHP: 7.4.22
 
@@ -64,6 +64,8 @@ CREATE TABLE `auth_item` (
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
 ('/entrants/*', 2, NULL, NULL, NULL, 1640576451, 1640576451),
 ('/entrants/index', 2, NULL, NULL, NULL, 1640576453, 1640576453),
+('/materials/*', 2, NULL, NULL, NULL, 1640605942, 1640605942),
+('/materials/index', 2, NULL, NULL, NULL, 1640605940, 1640605940),
 ('/registry/educational-program/*', 2, NULL, NULL, NULL, 1640576443, 1640576443),
 ('/registry/educational-program/index', 2, NULL, NULL, NULL, 1640576441, 1640576441),
 ('Маклер', 1, NULL, NULL, NULL, 1640576382, 1640576382);
@@ -85,6 +87,7 @@ CREATE TABLE `auth_item_child` (
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Маклер', '/entrants/*'),
+('Маклер', '/materials/*'),
 ('Маклер', '/registry/educational-program/*');
 
 -- --------------------------------------------------------
@@ -192,7 +195,8 @@ CREATE TABLE `menu` (
 INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (1, 'Реестр', NULL, NULL, NULL, NULL),
 (2, 'ОП', 1, '/registry/educational-program/index', NULL, NULL),
-(3, 'Список потенциальных абитуриентов', NULL, '/entrants/index', NULL, NULL);
+(3, 'Список потенциальных абитуриентов', NULL, '/entrants/index', NULL, NULL),
+(4, 'Материалы ', NULL, '/materials/index', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -372,7 +376,7 @@ ALTER TABLE `entrant`
 -- AUTO_INCREMENT для таблицы `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `sex`
