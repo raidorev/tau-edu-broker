@@ -82,9 +82,12 @@ class RegisterForm extends Model
         $user->generateAuthKey();
         if ($user->save()) {
             $assignment = new AuthAssignment();
-            $assignment->user_id = $user->id;
+            $assignment->user_id = (string) $user->id;
             $assignment->item_name = 'Маклер';
             $assignment->save();
+
+            Yii::$app->user->login($user);
+
             return $user;
         }
 
