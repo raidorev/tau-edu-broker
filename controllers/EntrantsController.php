@@ -81,6 +81,10 @@ class EntrantsController extends Controller
             ? Entrant::SCENARIO_STAGE_TWO
             : Entrant::SCENARIO_STAGE_ONE;
 
+        if ($model->isFilled) {
+            $model->scenario = Entrant::SCENARIO_STAGE_TWO;
+        }
+
         if (
             $this->request->isPost &&
             $model->load($this->request->post()) &&
