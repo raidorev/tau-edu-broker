@@ -44,6 +44,7 @@ $config = [
     'modules' => [
         'admin' => [
             'class' => AdminModule::class,
+            'mainLayout' => '@app/views/layouts/main.php',
             'controllerMap' => [
                 'assignment' => [
                     'class' => AssignmentController::class,
