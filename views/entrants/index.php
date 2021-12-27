@@ -8,12 +8,15 @@
 
 use app\models\entrant\Entrant;
 use app\models\entrant\EntrantSearch;
+use app\models\registry\EducationalProgram;
+use app\models\registry\Sex;
 use kartik\grid\ActionColumn;
 use kartik\grid\BooleanColumn;
 use kartik\grid\GridView;
 use kartik\grid\SerialColumn;
 use kartik\icons\Icon;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\Pjax;
@@ -42,9 +45,22 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'class' => BooleanColumn::class,
             'label' => Yii::t('app', 'Заполнен'),
+            'attribute' => 'filled',
             'value' => static function (Entrant $model) {
                 return $model->isFilled;
             },
+            'trueLabel' => Yii::t('app', 'Да'),
+            'falseLabel' => Yii::t('app', 'Нет'),
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'options' => [
+                    'placeholder' => Yii::t('app', 'Все'),
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ],
+            'vAlign' => 'middle',
         ],
         'first_name',
         'last_name',
@@ -52,10 +68,34 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'attribute' => 'future_educational_program_id',
             'value' => 'futureEducationalProgram.code',
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => ArrayHelper::map(
+                EducationalProgram::find()->all(),
+                'id',
+                'code'
+            ),
+            'filterWidgetOptions' => [
+                'options' => [
+                    'placeholder' => Yii::t('app', 'Выберите ОП'),
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ],
         ],
         [
             'attribute' => 'sex_id',
             'value' => 'sex.name_ru',
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => ArrayHelper::map(Sex::find()->all(), 'id', 'name_ru'),
+            'filterWidgetOptions' => [
+                'options' => [
+                    'placeholder' => Yii::t('app', 'Выберите пол'),
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ],
         ],
 
         [

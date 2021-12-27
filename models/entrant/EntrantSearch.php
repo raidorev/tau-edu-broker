@@ -4,16 +4,14 @@ namespace app\models\entrant;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\entrant\Entrant;
 
 /**
  * EntrantSearch represents the model behind the search form of `app\models\entrant\Entrant`.
  */
 class EntrantSearch extends Entrant
 {
-    /**
-     * {@inheritdoc}
-     */
+    public $filled;
+
     public function rules(): array
     {
         return [
@@ -34,6 +32,7 @@ class EntrantSearch extends Entrant
                     'phone_number',
                     'email',
                     'birthdate',
+                    'filled',
                 ],
                 'safe',
             ],
@@ -74,7 +73,6 @@ class EntrantSearch extends Entrant
             return $dataProvider;
         }
 
-        // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'future_educational_stage_id' => $this->future_educational_stage_id,
@@ -83,6 +81,26 @@ class EntrantSearch extends Entrant
             'sex_id' => $this->sex_id,
             'birthdate' => $this->birthdate,
         ]);
+
+        if ($this->filled === '1') {
+            $conditions = [];
+            foreach (
+                parent::scenarios()[Entrant::SCENARIO_STAGE_TWO]
+                as $attribute
+            ) {
+                $conditions[] = ['NOT', [$attribute => null]];
+            }
+            $query->andWhere(['AND', ...$conditions]);
+        } elseif ($this->filled === '0') {
+            $conditions = [];
+            foreach (
+                parent::scenarios()[Entrant::SCENARIO_STAGE_TWO]
+                as $attribute
+            ) {
+                $conditions[] = [$attribute => null];
+            }
+            $query->andWhere(['OR', ...$conditions]);
+        }
 
         $query
             ->andFilterWhere(['like', 'first_name', $this->first_name])
