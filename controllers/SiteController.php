@@ -6,8 +6,8 @@ use app\models\auth\LoginForm;
 use app\models\auth\RegisterForm;
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
+use yii\web\Controller;
 use yii\web\ErrorAction;
 use yii\web\Response;
 
@@ -62,10 +62,9 @@ class SiteController extends Controller
         $register = new RegisterForm();
         if (
             $register->load(Yii::$app->request->post()) &&
-            ($user = $register->register())
+            $register->register()
         ) {
-            // TODO: Redirect to admin panel
-            dd($user);
+            return $this->redirect(['entrants/index']);
         }
 
         return $this->refresh();
@@ -75,9 +74,7 @@ class SiteController extends Controller
     {
         $login = new LoginForm();
         if ($login->load(Yii::$app->request->post()) && $login->login()) {
-            // TODO: Redirect to admin panel
-            dd(Yii::$app->user);
-            return $this->refresh();
+            return $this->redirect(['entrants/index']);
         }
 
         return $this->render('login', ['login' => $login]);
@@ -86,6 +83,6 @@ class SiteController extends Controller
     public function actionLogout(): Response
     {
         Yii::$app->user->logout();
-        return $this->refresh();
+        return $this->goHome();
     }
 }
