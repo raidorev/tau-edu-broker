@@ -31,7 +31,7 @@ $locales = ['ru' => 'Русский', 'kk' => 'Қазақ', 'en' => 'English'];
 ?>
 <?php $this->beginPage(); ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="<?= Yii::$app->language ?>" class="h-100">
 
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
@@ -47,7 +47,7 @@ $locales = ['ru' => 'Русский', 'kk' => 'Қазақ', 'en' => 'English'];
     <?php $this->head(); ?>
 </head>
 
-<body>
+<body class="d-flex h-100">
 <?php $this->beginBody(); ?>
 
 <div class="h-100 d-flex flex-column">
@@ -94,7 +94,7 @@ $locales = ['ru' => 'Русский', 'kk' => 'Қазақ', 'en' => 'English'];
         <?php NavBar::end(); ?>
     </nav>
 
-    <div class="d-flex flex-auto">
+    <div class="d-flex flex-grow-1 flex-shrink-0">
         <aside class="bg-light">
             <?= ViewHelper::generateAsideNav() ?>
         </aside>
