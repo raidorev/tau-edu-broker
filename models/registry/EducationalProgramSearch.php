@@ -14,18 +14,9 @@ class EducationalProgramSearch extends EducationalProgram
     public function rules(): array
     {
         return [
-            [['id', 'code'], 'integer'],
+            [['id', 'code', 'educational_stage_id'], 'integer'],
             [['name_ru', 'name_kk', 'name_en'], 'safe'],
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function scenarios(): array
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
     }
 
     /**
@@ -57,6 +48,7 @@ class EducationalProgramSearch extends EducationalProgram
         $query->andFilterWhere([
             'id' => $this->id,
             'code' => $this->code,
+            'educational_stage_id' => $this->educational_stage_id,
         ]);
 
         $query

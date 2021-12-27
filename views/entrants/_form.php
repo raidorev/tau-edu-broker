@@ -34,18 +34,7 @@ use yii\bootstrap4\ActiveForm;
             ->field($model, 'patronymic')
             ->textInput(['maxlength' => true]) ?>
     </div>
-    <div class="col-12 col-md-6">
-        <?= $form
-            ->field($model, 'future_educational_stage_id')
-            ->widget(Select2::class, [
-                'data' => ArrayHelper::map(
-                    EducationalStage::find()->all(),
-                    'id',
-                    'name_ru'
-                ),
-            ]) ?>
-    </div>
-    <div class="col-12 col-md-6">
+    <div class="col-12">
         <?= $form
             ->field($model, 'future_educational_program_id')
             ->widget(Select2::class, [

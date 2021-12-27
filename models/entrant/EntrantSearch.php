@@ -18,7 +18,6 @@ class EntrantSearch extends Entrant
             [
                 [
                     'id',
-                    'future_educational_stage_id',
                     'future_educational_program_id',
                     'sex_id',
                 ],
@@ -75,7 +74,6 @@ class EntrantSearch extends Entrant
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'future_educational_stage_id' => $this->future_educational_stage_id,
             'future_educational_program_id' =>
                 $this->future_educational_program_id,
             'sex_id' => $this->sex_id,

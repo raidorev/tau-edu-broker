@@ -2,7 +2,7 @@
 
 namespace app\models\registry;
 
-use Yii;
+use app\components\helpers\i18n\TranslatableModelTrait;
 use yii\db\ActiveRecord;
 
 /**
@@ -15,9 +15,16 @@ use yii\db\ActiveRecord;
  */
 class EducationalStage extends ActiveRecord
 {
+    use TranslatableModelTrait;
+
     public static function tableName(): string
     {
         return 'educational_stage';
+    }
+
+    public static function find(): EducationalStageQuery
+    {
+        return new EducationalStageQuery(static::class);
     }
 
     public function rules(): array

@@ -6,6 +6,7 @@
  */
 
 use app\models\registry\EducationalProgramSearch;
+use app\models\registry\EducationalStage;
 use kartik\grid\ActionColumn;
 use kartik\grid\GridView;
 use kartik\grid\SerialColumn;
@@ -36,10 +37,28 @@ $this->params['breadcrumbs'][] = $this->title;
     'columns' => [
         ['class' => SerialColumn::class],
         'code',
+        [
+            'attribute' => 'educational_stage_id',
+            'value' => 'educationalStage.name',
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => EducationalStage::find()->selectList(),
+            'filterWidgetOptions' => [
+                'options' => [
+                    'placeholder' => Yii::t('app', 'Все'),
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ],
+        ],
         'name_ru',
         'name_kk',
         'name_en',
-        ['class' => ActionColumn::class, 'dropdown' => true, 'template' => '{update}{delete}'],
+        [
+            'class' => ActionColumn::class,
+            'dropdown' => true,
+            'template' => '{update}{delete}',
+        ],
     ],
 ]) ?>
 
