@@ -74,9 +74,12 @@ class EntrantsController extends Controller
      *
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate(int $id)
+    public function actionUpdate(int $id, bool $fill = false)
     {
         $model = $this->findModel($id);
+        $model->scenario = $fill
+            ? Entrant::SCENARIO_STAGE_TWO
+            : Entrant::SCENARIO_STAGE_ONE;
 
         if (
             $this->request->isPost &&
@@ -89,6 +92,11 @@ class EntrantsController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    public function actionFill(int $id)
+    {
+        $this->redirect(['update', 'id' => $id, 'fill' => true]);
     }
 
     /**

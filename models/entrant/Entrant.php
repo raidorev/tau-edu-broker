@@ -10,19 +10,37 @@ use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
- * @property int $id
- * @property string $first_name
- * @property string $last_name
- * @property string|null $patronymic
- * @property int $future_educational_stage_id
- * @property int $future_educational_program_id
- * @property string $phone_number
- * @property string|null $email
- * @property int|null $sex_id
- * @property string|null $birthdate
+ * @property int                     $id
+ * @property string                  $first_name
+ * @property string                  $last_name
+ * @property string|null             $patronymic
+ * @property int                     $future_educational_stage_id
+ * @property int                     $future_educational_program_id
+ * @property string                  $phone_number
+ * @property string|null             $email
+ * @property int|null                $sex_id
+ * @property string|null             $birthdate
+ *
+ * @property-read EducationalStage   $futureEducationalStage
+ * @property-read Sex                $sex
+ * @property-read bool               $isFilled
+ * @property-read EducationalProgram $futureEducationalProgram
  */
 class Entrant extends ActiveRecord
 {
+    public const SCENARIO_STAGE_ONE = 'STAGE_ONE';
+    public const SCENARIO_STAGE_TWO = 'STAGE_TWO';
+
+    public function scenarios(): array
+    {
+        $scenarios = parent::scenarios();
+
+        $scenarios[self::SCENARIO_STAGE_ONE] = array_keys($this->attributes);
+        $scenarios[self::SCENARIO_STAGE_TWO] = array_keys($this->attributes);
+
+        return $scenarios;
+    }
+
     public static function tableName(): string
     {
         return 'entrant';
@@ -40,6 +58,11 @@ class Entrant extends ActiveRecord
                     'phone_number',
                 ],
                 'required',
+            ],
+            [
+                ['email', 'sex_id', 'birthdate'],
+                'required',
+                'on' => self::SCENARIO_STAGE_TWO,
             ],
             [
                 [
@@ -78,7 +101,7 @@ class Entrant extends ActiveRecord
         ];
     }
 
-    public function getFutureEducatoinalStage(): ActiveQuery
+    public function getFutureEducationalStage(): ActiveQuery
     {
         return $this->hasOne(EducationalStage::class, [
             'id' => 'future_educational_stage_id',
@@ -95,5 +118,11 @@ class Entrant extends ActiveRecord
     public function getSex(): ActiveQuery
     {
         return $this->hasOne(Sex::class, ['id' => 'sex_id']);
+    }
+
+    public function getIsFilled(): bool
+    {
+        $this->scenario = self::SCENARIO_STAGE_TWO;
+        return $this->validate();
     }
 }
