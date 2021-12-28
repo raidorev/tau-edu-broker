@@ -1,19 +1,17 @@
 <?php
 /**
- * @var View $this
+ * @var View    $this
  * @var Entrant $model
  */
 
 use app\models\entrant\Entrant;
 use app\models\registry\EducationalProgram;
-use app\models\registry\EducationalStage;
 use app\models\registry\Sex;
-use kartik\date\DatePicker;
+use kartik\datecontrol\DateControl;
 use kartik\select2\Select2;
-use yii\helpers\ArrayHelper;
+use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 use yii\web\View;
-use yii\bootstrap4\ActiveForm;
 ?>
 
 <?php $form = ActiveForm::begin(); ?>
@@ -55,7 +53,15 @@ use yii\bootstrap4\ActiveForm;
         ]) ?>
     </div>
     <div class="col-12 col-md-6">
-        <?= $form->field($model, 'birthdate')->widget(DatePicker::class) ?>
+        <?= $form->field($model, 'birthdate')->widget(DateControl::class, [
+            'type' => DateControl::FORMAT_DATE,
+            'ajaxConversion'=>false,
+            'widgetOptions' => [
+                'pluginOptions' => [
+                    'autoclose' => true,
+                ],
+            ],
+        ]) ?>
     </div>
 
     <div class="col-12">

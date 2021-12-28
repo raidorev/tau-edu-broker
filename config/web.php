@@ -1,19 +1,20 @@
 <?php
 
-use app\models\auth\User;
-use kartik\grid\Module as GridModule;
-use mdm\admin\controllers\AssignmentController;
-use mdm\admin\components\AccessControl;
-use yii\rbac\DbManager;
-use mdm\admin\Module as AdminModule;
 use app\components\helpers\ConfigHelper;
 use app\components\helpers\i18n\LanguageSelector;
+use app\models\auth\User;
 use codemix\localeurls\UrlManager;
+use kartik\datecontrol\Module as DateControlModule;
+use kartik\grid\Module as GridModule;
+use mdm\admin\components\AccessControl;
+use mdm\admin\controllers\AssignmentController;
+use mdm\admin\Module as AdminModule;
 use yii\bootstrap4\BootstrapAsset;
 use yii\caching\FileCache;
 use yii\debug\Module as DebugModule;
 use yii\gii\Module as GiiModule;
 use yii\log\FileTarget;
+use yii\rbac\DbManager;
 use yii\swiftmailer\Mailer;
 
 require_once __DIR__ . '/../components/helpers/ConfigHelper.php';
@@ -55,6 +56,9 @@ $config = [
         ],
         'gridview' => [
             'class' => GridModule::class,
+        ],
+        'datecontrol' => [
+            'class' => DateControlModule::class,
         ],
     ],
     'components' => [
