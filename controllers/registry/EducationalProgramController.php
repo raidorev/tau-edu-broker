@@ -16,19 +16,16 @@ use yii\web\NotFoundHttpException;
  */
 class EducationalProgramController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
     public function behaviors(): array
     {
-        return array_merge(parent::behaviors(), [
+        return [
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
-        ]);
+        ];
     }
 
     /**
