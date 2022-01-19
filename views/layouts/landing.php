@@ -1,7 +1,7 @@
 <?php
 /**
  * @var string $content
- * @var View   $this
+ * @var View $this
  */
 
 use app\assets\AppAsset;
@@ -13,16 +13,16 @@ use yii\helpers\Url;
 use yii\web\View;
 
 $this->title =
-    Yii::t("app", "Маклер") .
-    " | " .
-    Yii::t("app", "Универсистет Туран-Астана");
+    Yii::t('app', 'Маклер') .
+    ' | ' .
+    Yii::t('app', 'Универсистет Туран-Астана');
 
 AppAsset::register($this);
 Icon::map($this);
 
-$navItems = ArrayHelper::getValue(Yii::$app->params, "landing-nav-items", []);
+$navItems = ArrayHelper::getValue(Yii::$app->params, 'landing-nav-items', []);
 
-$locales = ["ru" => "Русский", "kk" => "Қазақ", "en" => "English"];
+$locales = ['ru' => 'Русский', 'kk' => 'Қазақ', 'en' => 'English'];
 
 // Убираем текущий язык
 $availableLocales = array_filter(
@@ -48,10 +48,10 @@ $availableLocales = array_filter(
 
 <nav class="navbar navbar-expand-sm navbar-dark sticky-top bg-primary">
     <div class="container">
-        <a class="navbar-brand" href="<?= Url::to(["/"]) ?>">
+        <a class="navbar-brand" href="<?= Url::to(['/']) ?>">
             <img src="/logo.png" width="50" height="50" alt="<?= Yii::t(
-                "app",
-                "Логотип"
+                'app',
+                'Логотип'
             ) ?>">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -63,7 +63,7 @@ $availableLocales = array_filter(
             <ul class="navbar-nav mr-auto justify-content-end flex-grow-1">
                 <?php foreach ($navItems as $link => $text): ?>
                     <li class="nav-item">
-                        <?= Html::a($text, $link, ["class" => ["nav-link"]]) ?>
+                        <?= Html::a($text, $link, ['class' => ['nav-link']]) ?>
                     </li>
                 <?php endforeach; ?>
 
@@ -74,11 +74,21 @@ $availableLocales = array_filter(
                         <?= $locales[Yii::$app->language] ?>
                     </a>
                     <?= LanguageDropdown::widget([
-                        "options" => [
-                            "aria" => ["labelledby" => "navbarDropdown"],
+                        'options' => [
+                            'aria' => ['labelledby' => 'navbarDropdown'],
                         ],
                     ]) ?>
                 </li>
+
+                <?php if (!Yii::$app->user->isGuest): ?>
+                    <li class="nav-item">
+                        <?= Html::a(
+                            Yii::t('app', 'Панель маклера'),
+                            Url::to(['entrants/index']),
+                            ['class' => ['nav-link']]
+                        ) ?>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </div>
@@ -90,9 +100,9 @@ $availableLocales = array_filter(
 
 <footer class="bg-light">
     <div class="text-center py-3">
-        © <?= date("Y") ?> Copyright:
-        <a href="<?= Url::to(["/"]) ?>">
-            <?= Yii::t("app", "Универсистет Туран-Астана") ?>
+        © <?= date('Y') ?> Copyright:
+        <a href="<?= Url::to(['/']) ?>">
+            <?= Yii::t('app', 'Универсистет Туран-Астана') ?>
         </a>
     </div>
 </footer>
