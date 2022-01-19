@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 27, 2021 at 05:54 PM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 7.4.22
+-- Generation Time: Jan 19, 2022 at 04:29 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,6 +38,7 @@ CREATE TABLE `auth_assignment` (
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
+('Маклер', '2', 1642578176),
 ('Маклер', '6', NULL),
 ('Маклер', '7', NULL);
 
@@ -66,6 +67,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/entrants/index', 2, NULL, NULL, NULL, 1640576453, 1640576453),
 ('/materials/*', 2, NULL, NULL, NULL, 1640605942, 1640605942),
 ('/materials/index', 2, NULL, NULL, NULL, 1640605940, 1640605940),
+('/registry/educational-organization/*', 2, NULL, NULL, NULL, 1642581862, 1642581862),
+('/registry/educational-organization/index', 2, NULL, NULL, NULL, 1642581864, 1642581864),
 ('/registry/educational-program/*', 2, NULL, NULL, NULL, 1640576443, 1640576443),
 ('/registry/educational-program/index', 2, NULL, NULL, NULL, 1640576441, 1640576441),
 ('Маклер', 1, NULL, NULL, NULL, 1640576382, 1640576382);
@@ -88,6 +91,7 @@ CREATE TABLE `auth_item_child` (
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Маклер', '/entrants/*'),
 ('Маклер', '/materials/*'),
+('Маклер', '/registry/educational-organization/*'),
 ('Маклер', '/registry/educational-program/*');
 
 -- --------------------------------------------------------
@@ -102,6 +106,47 @@ CREATE TABLE `auth_rule` (
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `educational_organization`
+--
+
+CREATE TABLE `educational_organization` (
+  `id` int(11) NOT NULL,
+  `name_ru` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `name_kk` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `name_en` varchar(255) CHARACTER SET utf8 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Учебные заведения';
+
+--
+-- Dumping data for table `educational_organization`
+--
+
+INSERT INTO `educational_organization` (`id`, `name_ru`, `name_kk`, `name_en`) VALUES
+(1, 'Fff', NULL, NULL),
+(2, 'asd', NULL, NULL),
+(3, 'asdf', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `educational_organization_levels`
+--
+
+CREATE TABLE `educational_organization_levels` (
+  `organization_id` int(11) NOT NULL,
+  `level_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `educational_organization_levels`
+--
+
+INSERT INTO `educational_organization_levels` (`organization_id`, `level_id`) VALUES
+(3, 4),
+(3, 5);
 
 -- --------------------------------------------------------
 
@@ -147,6 +192,30 @@ CREATE TABLE `educational_stage` (
 INSERT INTO `educational_stage` (`id`, `name_ru`, `name_kk`, `name_en`) VALUES
 (1, 'бакалавр', NULL, 'bachelor'),
 (2, 'магистр', NULL, 'magister');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `education_level`
+--
+
+CREATE TABLE `education_level` (
+  `id` int(11) NOT NULL,
+  `name_ru` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `name_kk` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `name_en` varchar(255) CHARACTER SET utf8 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Уровень образования';
+
+--
+-- Dumping data for table `education_level`
+--
+
+INSERT INTO `education_level` (`id`, `name_ru`, `name_kk`, `name_en`) VALUES
+(4, 'среднее общее', NULL, NULL),
+(5, 'начальное профессиональное', NULL, NULL),
+(6, 'среднее профессиональное', NULL, NULL),
+(7, 'высшее', NULL, NULL),
+(8, 'послевузовское', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -198,7 +267,8 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (1, 'Реестр', NULL, NULL, NULL, NULL),
 (2, 'ОП', 1, '/registry/educational-program/index', NULL, NULL),
 (3, 'Список потенциальных абитуриентов', NULL, '/entrants/index', NULL, NULL),
-(4, 'Материалы ', NULL, '/materials/index', NULL, NULL);
+(4, 'Материалы ', NULL, '/materials/index', NULL, NULL),
+(5, 'Оргиназиции', 1, '/registry/educational-organization/index', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -310,6 +380,20 @@ ALTER TABLE `auth_rule`
   ADD PRIMARY KEY (`name`);
 
 --
+-- Indexes for table `educational_organization`
+--
+ALTER TABLE `educational_organization`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `educational_organization_name_ru_uindex` (`name_ru`);
+
+--
+-- Indexes for table `educational_organization_levels`
+--
+ALTER TABLE `educational_organization_levels`
+  ADD PRIMARY KEY (`level_id`),
+  ADD KEY `educational_organization_levels_educational_organization_id_fk` (`organization_id`);
+
+--
 -- Indexes for table `educational_program`
 --
 ALTER TABLE `educational_program`
@@ -321,6 +405,13 @@ ALTER TABLE `educational_program`
 --
 ALTER TABLE `educational_stage`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `education_level`
+--
+ALTER TABLE `education_level`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `education_level_name_ru_uindex` (`name_ru`);
 
 --
 -- Indexes for table `entrant`
@@ -360,6 +451,12 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `educational_organization`
+--
+ALTER TABLE `educational_organization`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `educational_program`
 --
 ALTER TABLE `educational_program`
@@ -372,6 +469,12 @@ ALTER TABLE `educational_stage`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `education_level`
+--
+ALTER TABLE `education_level`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `entrant`
 --
 ALTER TABLE `entrant`
@@ -381,7 +484,7 @@ ALTER TABLE `entrant`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `sex`
@@ -417,6 +520,13 @@ ALTER TABLE `auth_item`
 ALTER TABLE `auth_item_child`
   ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `educational_organization_levels`
+--
+ALTER TABLE `educational_organization_levels`
+  ADD CONSTRAINT `educational_organization_levels_education_level_id_fk` FOREIGN KEY (`level_id`) REFERENCES `education_level` (`id`),
+  ADD CONSTRAINT `educational_organization_levels_educational_organization_id_fk` FOREIGN KEY (`organization_id`) REFERENCES `educational_organization` (`id`);
 
 --
 -- Constraints for table `educational_program`
