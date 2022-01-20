@@ -4,10 +4,13 @@ namespace app\controllers;
 
 use app\models\entrant\Entrant;
 use app\models\entrant\EntrantSearch;
+use app\models\registry\EducationalOrganization;
+use kartik\depdrop\DepDropAction;
 use Throwable;
 use Yii;
 use yii\db\StaleObjectException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -27,6 +30,21 @@ class EntrantsController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
+            ],
+        ]);
+    }
+
+    public function actions(): array
+    {
+        return ArrayHelper::merge(parent::actions(), [
+            'organizations' => [
+                'class' => DepDropAction::class,
+                'outputCallback' => function ($selectedId, $params) {
+                    return EducationalOrganization::find()
+                        ->joinWith('educationalOrganizationLevels l')
+                        ->where(['l.level_id' => $selectedId])
+                        ->depDropList();
+                },
             ],
         ]);
     }

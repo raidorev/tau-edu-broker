@@ -2,33 +2,13 @@
 
 namespace app\models\registry;
 
+use app\components\helpers\model\SerializableQueryTrait;
+use yii\db\ActiveQuery;
+
 /**
- * This is the ActiveQuery class for [[EducationalOrganization]].
- *
  * @see EducationalOrganization
  */
-class EducationalOrganizationQuery extends \yii\db\ActiveQuery
+class EducationalOrganizationQuery extends ActiveQuery
 {
-    /*public function active()
-    {
-        return $this->andWhere('[[status]]=1');
-    }*/
-
-    /**
-     * {@inheritdoc}
-     * @return EducationalOrganization[]|array
-     */
-    public function all($db = null)
-    {
-        return parent::all($db);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return EducationalOrganization|array|null
-     */
-    public function one($db = null)
-    {
-        return parent::one($db);
-    }
+    use SerializableQueryTrait;
 }

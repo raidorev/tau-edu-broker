@@ -2,6 +2,7 @@
 
 namespace app\models\registry;
 
+use app\components\helpers\i18n\TranslatableModelTrait;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -18,6 +19,8 @@ use yii\helpers\ArrayHelper;
  */
 class EducationalOrganization extends ActiveRecord
 {
+    use TranslatableModelTrait;
+
     public static function tableName(): string
     {
         return 'educational_organization';

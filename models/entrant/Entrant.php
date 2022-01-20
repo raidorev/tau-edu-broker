@@ -2,28 +2,34 @@
 
 namespace app\models\entrant;
 
+use app\models\registry\EducationalOrganization;
 use app\models\registry\EducationalProgram;
 use app\models\registry\EducationalStage;
+use app\models\registry\EducationLevel;
 use app\models\registry\Sex;
 use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
- * @property int $id
- * @property string $first_name
- * @property string $last_name
- * @property string|null $patronymic
- * @property int $future_educational_program_id
- * @property string $phone_number
- * @property string|null $email
- * @property int|null $sex_id
- * @property string|null $birthdate
+ * @property int                          $id
+ * @property string                       $first_name
+ * @property string                       $last_name
+ * @property string|null                  $patronymic
+ * @property int                          $future_educational_program_id
+ * @property string                       $phone_number
+ * @property string|null                  $email
+ * @property int|null                     $sex_id
+ * @property string|null                  $birthdate
+ * @property int|null                     $level_id
+ * @property int|null                     $organization_id
  *
- * @property-read EducationalStage $futureEducationalStage
- * @property-read Sex $sex
- * @property-read bool $isFilled
- * @property-read EducationalProgram $futureEducationalProgram
+ * @property-read EducationalStage        $futureEducationalStage
+ * @property-read Sex                     $sex
+ * @property-read bool                    $isFilled
+ * @property-read EducationalProgram      $futureEducationalProgram
+ * @property-read EducationLevel          $level
+ * @property-read EducationalOrganization $organization
  */
 class Entrant extends ActiveRecord
 {
@@ -58,11 +64,19 @@ class Entrant extends ActiveRecord
                 'required',
             ],
             [
-                ['email', 'sex_id', 'birthdate'],
+                ['email', 'sex_id', 'birthdate', 'level_id', 'organization_id'],
                 'required',
                 'on' => self::SCENARIO_STAGE_TWO,
             ],
-            [['future_educational_program_id', 'sex_id'], 'integer'],
+            [
+                [
+                    'future_educational_program_id',
+                    'sex_id',
+                    'level_id',
+                    'organization_id',
+                ],
+                'integer',
+            ],
             [['birthdate'], 'safe'],
             [
                 ['first_name', 'last_name', 'patronymic', 'email'],
@@ -85,6 +99,8 @@ class Entrant extends ActiveRecord
             'email' => Yii::t('app', 'Email'),
             'sex_id' => Yii::t('app', 'Пол'),
             'birthdate' => Yii::t('app', 'Дата рождения'),
+            'organization_id' => Yii::t('app', 'Организация образования'),
+            'level_id' => Yii::t('app', 'Последний уровень образования'),
         ];
     }
 
@@ -105,6 +121,13 @@ class Entrant extends ActiveRecord
     public function getSex(): ActiveQuery
     {
         return $this->hasOne(Sex::class, ['id' => 'sex_id']);
+    }
+
+    public function getOrganization(): ActiveQuery
+    {
+        return $this->hasOne(EducationalOrganization::class, [
+            'id' => 'organization_id',
+        ]);
     }
 
     public function getIsFilled(): bool

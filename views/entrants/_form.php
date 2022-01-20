@@ -6,11 +6,14 @@
 
 use app\models\entrant\Entrant;
 use app\models\registry\EducationalProgram;
+use app\models\registry\EducationLevel;
 use app\models\registry\Sex;
 use kartik\datecontrol\DateControl;
+use kartik\depdrop\DepDrop;
 use kartik\select2\Select2;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\View;
 ?>
 
@@ -40,6 +43,22 @@ use yii\web\View;
             ]) ?>
     </div>
     <div class="col-12 col-md-6">
+        <?= $form->field($model, 'level_id')->widget(Select2::class, [
+            'id' => 'level',
+            'name' => 'level',
+            'data' => EducationLevel::find()->selectList(),
+        ]) ?>
+    </div>
+    <div class="col-12 col-md-6">
+        <?= $form->field($model, 'organization_id')->widget(DepDrop::class, [
+            'type' => DepDrop::TYPE_SELECT2,
+            'pluginOptions' => [
+                'depends' => ['entrant-level_id'],
+                'url' => Url::to(['organizations']),
+            ],
+        ]) ?>
+    </div>
+    <div class="col-12 col-md-6">
         <?= $form
             ->field($model, 'phone_number')
             ->textInput(['maxlength' => true]) ?>
@@ -55,7 +74,7 @@ use yii\web\View;
     <div class="col-12 col-md-6">
         <?= $form->field($model, 'birthdate')->widget(DateControl::class, [
             'type' => DateControl::FORMAT_DATE,
-            'ajaxConversion'=>false,
+            'ajaxConversion' => false,
             'widgetOptions' => [
                 'pluginOptions' => [
                     'autoclose' => true,
