@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 19, 2022 at 04:29 PM
+-- Generation Time: Jan 20, 2022 at 03:38 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -232,17 +232,19 @@ CREATE TABLE `entrant` (
   `phone_number` varchar(20) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
   `sex_id` int(11) DEFAULT NULL,
-  `birthdate` date DEFAULT NULL
+  `birthdate` date DEFAULT NULL,
+  `organization_id` int(11) DEFAULT NULL,
+  `level_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `entrant`
 --
 
-INSERT INTO `entrant` (`id`, `first_name`, `last_name`, `patronymic`, `future_educational_program_id`, `phone_number`, `email`, `sex_id`, `birthdate`) VALUES
-(1, 'Петр', 'Петров', 'Петрович', 1, '+7 812 333 4411', 'asd@asd.asd', 1, '0000-00-00'),
-(2, 'Марк', 'Марков', '', 2, '+7 12312312312', '', 1, NULL),
-(3, 'Марк', 'Марков', 'Маркович', 1, '1231231232', '', 1, NULL);
+INSERT INTO `entrant` (`id`, `first_name`, `last_name`, `patronymic`, `future_educational_program_id`, `phone_number`, `email`, `sex_id`, `birthdate`, `organization_id`, `level_id`) VALUES
+(1, 'Петр', 'Петров', 'Петрович', 1, '+7 812 333 4411', 'asd@asd.asd', 1, '0000-00-00', NULL, NULL),
+(2, 'Марк', 'Марков', '', 2, '+7 12312312312', '', 1, NULL, NULL, NULL),
+(3, 'Марк', 'Марков', 'Маркович', 1, '1231231232', '', 1, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
