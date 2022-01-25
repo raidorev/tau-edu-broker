@@ -100,7 +100,7 @@ $config = [
             'cache' => false,
             'rules' => [],
         ],
-        'db' => ConfigHelper::createDbConfig('broker'),
+        'db' => ConfigHelper::createDbConfig($_ENV['DB_NAME']),
         'assetManager' => [
             'forceCopy' => YII_ENV_DEV,
             'bundles' => [
