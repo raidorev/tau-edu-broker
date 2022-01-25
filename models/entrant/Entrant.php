@@ -23,6 +23,7 @@ use yii\db\ActiveRecord;
  * @property string|null                  $birthdate
  * @property int|null                     $level_id
  * @property int|null                     $organization_id
+ * @property string|null                  $iin
  *
  * @property-read EducationalStage        $futureEducationalStage
  * @property-read Sex                     $sex
@@ -64,7 +65,14 @@ class Entrant extends ActiveRecord
                 'required',
             ],
             [
-                ['email', 'sex_id', 'birthdate', 'level_id', 'organization_id'],
+                [
+                    'email',
+                    'sex_id',
+                    'birthdate',
+                    'level_id',
+                    'organization_id',
+                    'iin',
+                ],
                 'required',
                 'on' => self::SCENARIO_STAGE_TWO,
             ],
@@ -84,6 +92,7 @@ class Entrant extends ActiveRecord
                 'max' => 50,
             ],
             [['phone_number'], 'string', 'max' => 20],
+            [['iin'], 'string', 'max' => 25],
         ];
     }
 
@@ -101,6 +110,7 @@ class Entrant extends ActiveRecord
             'birthdate' => Yii::t('app', 'Дата рождения'),
             'organization_id' => Yii::t('app', 'Организация образования'),
             'level_id' => Yii::t('app', 'Последний уровень образования'),
+            'iin' => Yii::t('app', 'ИИН'),
         ];
     }
 
@@ -132,7 +142,12 @@ class Entrant extends ActiveRecord
 
     public function getIsFilled(): bool
     {
+        $oldScenario = $this->scenario;
         $this->scenario = self::SCENARIO_STAGE_TWO;
-        return $this->validate();
+        $isValid = $this->validate();
+        $this->clearErrors();
+        $this->scenario = $oldScenario;
+
+        return $isValid;
     }
 }

@@ -35,7 +35,12 @@ use yii\web\View;
             ->field($model, 'patronymic')
             ->textInput(['maxlength' => true]) ?>
     </div>
-    <div class="col-12">
+    <div class="col-12 col-md-6">
+        <?= $form
+            ->field($model, 'iin')
+            ->textInput(['maxlength' => true]) ?>
+    </div>
+    <div class="col-12 col-md-6">
         <?= $form
             ->field($model, 'future_educational_program_id')
             ->widget(Select2::class, [
