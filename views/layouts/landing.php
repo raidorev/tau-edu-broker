@@ -15,7 +15,7 @@ use yii\web\View;
 $this->title =
     Yii::t('app', 'Маклер') .
     ' | ' .
-    Yii::t('app', 'Универсистет Туран-Астана');
+    Yii::t('app', 'Университет Туран-Астана');
 
 AppAsset::register($this);
 Icon::map($this);
