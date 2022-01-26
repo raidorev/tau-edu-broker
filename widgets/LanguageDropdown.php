@@ -8,7 +8,7 @@ use yii\helpers\Url;
 
 class LanguageDropdown extends Dropdown
 {
-    private static array $languages = [
+    private static $languages = [
         'ru' => 'Русский',
         'kk' => 'Қазақ',
         'en' => 'English',
