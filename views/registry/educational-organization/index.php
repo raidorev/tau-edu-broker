@@ -14,7 +14,7 @@ use yii\bootstrap4\Html;
 use yii\web\View;
 use yii\widgets\Pjax;
 
-$this->title = Yii::t('app', 'Оргинизации образования');
+$this->title = Yii::t('app', 'Организации образования');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <p>
     <?= Html::a(
-        Yii::t('app', 'Добавить ораганизацию'),
+        Yii::t('app', 'Добавить организацию'),
         ['create'],
         ['class' => 'btn btn-primary']
     ) ?>

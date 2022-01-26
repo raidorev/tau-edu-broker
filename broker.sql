@@ -270,7 +270,7 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (2, 'ОП', 1, '/registry/educational-program/index', NULL, NULL),
 (3, 'Список потенциальных абитуриентов', NULL, '/entrants/index', NULL, NULL),
 (4, 'Материалы ', NULL, '/materials/index', NULL, NULL),
-(5, 'Оргиназиции', 1, '/registry/educational-organization/index', NULL, NULL);
+(5, 'Организации', 1, '/registry/educational-organization/index', NULL, NULL);
 
 -- --------------------------------------------------------
 
