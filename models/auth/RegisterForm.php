@@ -10,12 +10,18 @@ use yii\helpers\ArrayHelper;
 
 class RegisterForm extends Model
 {
-    public string $email = '';
-    public string $first_name = '';
-    public string $last_name = '';
-    public string $patronymic = '';
-    public string $password = '';
-    public string $retypePassword = '';
+    /** @var string */
+    public $email = '';
+    /** @var string */
+    public $first_name = '';
+    /** @var string */
+    public $last_name = '';
+    /** @var string */
+    public $patronymic = '';
+    /** @var string */
+    public $password = '';
+    /** @var string */
+    public $retypePassword = '';
 
     public function attributeLabels(): array
     {

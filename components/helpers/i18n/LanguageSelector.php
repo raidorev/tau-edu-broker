@@ -6,7 +6,7 @@ use yii\base\BootstrapInterface;
 
 class LanguageSelector implements BootstrapInterface
 {
-    public array $supportedLanguages = [];
+    public $supportedLanguages = [];
 
     public function bootstrap($app): void
     {

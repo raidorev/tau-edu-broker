@@ -8,8 +8,8 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "educational_stage".
  *
- * @property int $id
- * @property string $name_ru
+ * @property int         $id
+ * @property string      $name_ru
  * @property string|null $name_kk
  * @property string|null $name_en
  */

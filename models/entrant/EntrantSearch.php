@@ -15,14 +15,7 @@ class EntrantSearch extends Entrant
     public function rules(): array
     {
         return [
-            [
-                [
-                    'id',
-                    'future_educational_program_id',
-                    'sex_id',
-                ],
-                'integer',
-            ],
+            [['id', 'future_educational_program_id', 'sex_id'], 'integer'],
             [
                 [
                     'first_name',
@@ -88,7 +81,8 @@ class EntrantSearch extends Entrant
             ) {
                 $conditions[] = ['NOT', [$attribute => null]];
             }
-            $query->andWhere(['AND', ...$conditions]);
+            $conditions = array_merge(['AND'], $conditions);
+            $query->andWhere($conditions);
         } elseif ($this->filled === '0') {
             $conditions = [];
             foreach (
@@ -97,7 +91,8 @@ class EntrantSearch extends Entrant
             ) {
                 $conditions[] = [$attribute => null];
             }
-            $query->andWhere(['OR', ...$conditions]);
+            $conditions = array_merge(['AND'], $conditions);
+            $query->andWhere($conditions);
         }
 
         $query

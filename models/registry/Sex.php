@@ -3,11 +3,10 @@
 namespace app\models\registry;
 
 use app\components\helpers\i18n\TranslatableModelTrait;
-use Yii;
 use yii\db\ActiveRecord;
 
 /**
- * @property int $id
+ * @property int    $id
  * @property string $name_ru
  * @property string $name_kk
  * @property string $name_en

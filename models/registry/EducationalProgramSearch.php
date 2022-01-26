@@ -2,9 +2,7 @@
 
 namespace app\models\registry;
 
-use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\registry\EducationalProgram;
 
 /**
  * EducationalProgramSearch represents the model behind the search form of `app\models\registry\EducationalProgram`.

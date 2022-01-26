@@ -12,11 +12,15 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
-    public string $email = '';
-    public string $password = '';
-    public bool $rememberMe = true;
+    /** @var string */
+    public $email = '';
+    /** @var string */
+    public $password = '';
+    /** @var bool */
+    public $rememberMe = true;
 
-    private ?User $_user = null;
+    /** @var ?User */
+    private $_user = null;
 
     public function attributeLabels(): array
     {
@@ -41,7 +45,7 @@ class LoginForm extends Model
      * This method serves as the inline validation for password.
      *
      * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
+     * @param ?array $params    the additional name-value pairs given in the rule
      */
     public function validatePassword(string $attribute, ?array $params): void
     {

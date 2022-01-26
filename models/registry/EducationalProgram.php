@@ -8,15 +8,15 @@ use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
- * @property int $id
- * @property int $code
- * @property int $educational_stage_id
- * @property string $name_ru
- * @property string|null $name_kk
- * @property string|null $name_en
+ * @property int                   $id
+ * @property int                   $code
+ * @property int                   $educational_stage_id
+ * @property string                $name_ru
+ * @property string|null           $name_kk
+ * @property string|null           $name_en
  *
- * @property-read string $name
- * @property-read string $fullname
+ * @property-read string           $name
+ * @property-read string           $fullname
  * @property-read EducationalStage $educationalStage
  */
 class EducationalProgram extends ActiveRecord
