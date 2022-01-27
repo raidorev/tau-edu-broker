@@ -34,7 +34,7 @@ $config = [
         'log',
         [
             'class' => LanguageSelector::class,
-            'supportedLanguages' => ['ru-RU', 'kk-KZ', 'en-US'],
+            'supportedLanguages' => ['ru', 'kk', 'en'],
         ],
     ],
     'aliases' => [
