@@ -67,7 +67,8 @@ class EducationalOrganization extends ActiveRecord
         }
     }
 
-    public ?array $levels = null;
+    /** @var null|array */
+    public $levels = null;
 
     public function rules(): array
     {
