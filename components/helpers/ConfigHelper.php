@@ -12,8 +12,31 @@ final class ConfigHelper
     public const ENV_TEST = 'test';
     public const ENV_CONSOLE = 'console';
 
+    public const MODE_PRODUCTION = 'production';
+    public const MODE_DEVELOPMENT = 'development';
+
     public const DB_TYPE_MSSQL = 'mssql';
     public const DB_TYPE_MYSQL = 'mysql';
+
+    /**
+     * Сравнивает значение переменной `$_ENV['MODE']`
+     *
+     * @return bool Находится ли текущая среда в разработке
+     */
+    public static function isDevelopment(): bool
+    {
+        return $_ENV['MODE'] === self::MODE_DEVELOPMENT;
+    }
+
+    /**
+     * Сравнивает значение переменной `$_ENV['MODE']`
+     *
+     * @return bool Находится ли текущая среда в продакшене
+     */
+    public static function isProduction(): bool
+    {
+        return $_ENV['MODE'] === self::MODE_PRODUCTION;
+    }
 
     /**
      * Загружает `.env` файл
@@ -31,6 +54,22 @@ final class ConfigHelper
 
         $dotenv = Dotenv::createImmutable(__DIR__ . '/../..', $filename);
         $dotenv->load();
+
+        if (
+            !array_key_exists('MODE', $_ENV) ||
+            !in_array(
+                $_ENV['MODE'],
+                [self::MODE_DEVELOPMENT, self::MODE_PRODUCTION],
+                true
+            )
+        ) {
+            $_ENV['MODE'] = self::MODE_PRODUCTION;
+        }
+
+        if (self::isDevelopment()) {
+            defined('YII_DEBUG') or define('YII_DEBUG', true);
+            defined('YII_ENV') or define('YII_ENV', 'dev');
+        }
     }
 
     /**
@@ -42,10 +81,12 @@ final class ConfigHelper
      *
      * @return array
      */
-    public static function createDbConfig(string $dbName, ?string $type = null): array
-    {
+    public static function createDbConfig(
+        string $dbName,
+        ?string $type = null
+    ): array {
         if (!$type) {
-            $type = (string)$_ENV['DB_TYPE'];
+            $type = (string) $_ENV['DB_TYPE'];
         }
 
         return [
