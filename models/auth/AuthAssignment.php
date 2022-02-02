@@ -7,12 +7,16 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "auth_assignment".
  *
- * @property string $item_name
- * @property string $user_id
+ * @property string   $item_name
+ * @property string   $user_id
  * @property int|null $created_at
  */
 class AuthAssignment extends ActiveRecord
 {
+    public const BROKER = 'Маклер';
+    public const MANAGER = 'Менеджер';
+    public const ADMIN = 'Админ';
+
     /**
      * {@inheritdoc}
      */

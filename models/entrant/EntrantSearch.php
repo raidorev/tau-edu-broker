@@ -2,6 +2,8 @@
 
 namespace app\models\entrant;
 
+use app\models\auth\AuthAssignment;
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -31,9 +33,6 @@ class EntrantSearch extends Entrant
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function scenarios(): array
     {
         // bypass scenarios() implementation in the parent class
@@ -51,7 +50,9 @@ class EntrantSearch extends Entrant
     {
         $query = Entrant::find();
 
-        // add conditions that should always apply here
+        if (Yii::$app->user->can(AuthAssignment::BROKER)) {
+            $query->andOnCondition(['created_by' => Yii::$app->user->id]);
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
