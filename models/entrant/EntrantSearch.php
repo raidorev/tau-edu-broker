@@ -76,23 +76,17 @@ class EntrantSearch extends Entrant
 
         if ($this->filled === '1') {
             $conditions = [];
-            foreach (
-                parent::scenarios()[Entrant::SCENARIO_STAGE_TWO]
-                as $attribute
-            ) {
+            foreach (Entrant::STAGE_TWO_REQUIRED as $attribute) {
                 $conditions[] = ['NOT', [$attribute => null]];
             }
             $conditions = array_merge(['AND'], $conditions);
             $query->andWhere($conditions);
         } elseif ($this->filled === '0') {
             $conditions = [];
-            foreach (
-                parent::scenarios()[Entrant::SCENARIO_STAGE_TWO]
-                as $attribute
-            ) {
+            foreach (Entrant::STAGE_TWO_REQUIRED as $attribute) {
                 $conditions[] = [$attribute => null];
             }
-            $conditions = array_merge(['AND'], $conditions);
+            $conditions = array_merge(['OR'], $conditions);
             $query->andWhere($conditions);
         }
 

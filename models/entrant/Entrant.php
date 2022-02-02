@@ -40,6 +40,25 @@ class Entrant extends ActiveRecord
     public const SCENARIO_STAGE_ONE = 'STAGE_ONE';
     public const SCENARIO_STAGE_TWO = 'STAGE_TWO';
 
+    public const STAGE_ONE_REQUIRED = [
+        'first_name',
+        'last_name',
+        'future_educational_program_id',
+        'phone_number',
+    ];
+    public const STAGE_TWO_REQUIRED = [
+        'first_name',
+        'last_name',
+        'future_educational_program_id',
+        'phone_number',
+        'email',
+        'sex_id',
+        'birthdate',
+        'organization_id',
+        'level_id',
+        'iin',
+    ];
+
     public function scenarios(): array
     {
         $scenarios = parent::scenarios();
@@ -58,24 +77,9 @@ class Entrant extends ActiveRecord
     public function rules(): array
     {
         return [
+            [self::STAGE_ONE_REQUIRED, 'required'],
             [
-                [
-                    'first_name',
-                    'last_name',
-                    'future_educational_program_id',
-                    'phone_number',
-                ],
-                'required',
-            ],
-            [
-                [
-                    'email',
-                    'sex_id',
-                    'birthdate',
-                    'level_id',
-                    'organization_id',
-                    'iin',
-                ],
+                self::STAGE_TWO_REQUIRED,
                 'required',
                 'on' => self::SCENARIO_STAGE_TWO,
             ],
