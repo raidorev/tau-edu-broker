@@ -2,6 +2,7 @@
 
 namespace app\models\entrant;
 
+use app\models\auth\User;
 use app\models\registry\EducationalOrganization;
 use app\models\registry\EducationalProgram;
 use app\models\registry\EducationalStage;
@@ -24,6 +25,7 @@ use yii\db\ActiveRecord;
  * @property int|null                     $level_id
  * @property int|null                     $organization_id
  * @property string|null                  $iin
+ * @property int                          $created_by
  *
  * @property-read EducationalStage        $futureEducationalStage
  * @property-read Sex                     $sex
@@ -31,6 +33,7 @@ use yii\db\ActiveRecord;
  * @property-read EducationalProgram      $futureEducationalProgram
  * @property-read EducationLevel          $level
  * @property-read EducationalOrganization $organization
+ * @property-read User                    $createdBy
  */
 class Entrant extends ActiveRecord
 {
@@ -82,6 +85,7 @@ class Entrant extends ActiveRecord
                     'sex_id',
                     'level_id',
                     'organization_id',
+                    'created_by',
                 ],
                 'integer',
             ],
@@ -94,6 +98,15 @@ class Entrant extends ActiveRecord
             [['phone_number'], 'string', 'max' => 20],
             [['iin'], 'string', 'max' => 25],
         ];
+    }
+
+    public function beforeSave($insert): bool
+    {
+        if ($insert) {
+            $this->created_by = Yii::$app->user->id;
+        }
+
+        return parent::beforeSave($insert);
     }
 
     public function attributeLabels(): array
@@ -111,6 +124,7 @@ class Entrant extends ActiveRecord
             'organization_id' => Yii::t('app', 'Организация образования'),
             'level_id' => Yii::t('app', 'Последний уровень образования'),
             'iin' => Yii::t('app', 'ИИН'),
+            'created_by' => Yii::t('app', 'Маклер'),
         ];
     }
 
@@ -138,6 +152,11 @@ class Entrant extends ActiveRecord
         return $this->hasOne(EducationalOrganization::class, [
             'id' => 'organization_id',
         ]);
+    }
+
+    public function getCreatedBy(): ActiveQuery
+    {
+        return $this->hasOne(User::class, ['id' => 'created_by']);
     }
 
     public function getIsFilled(): bool

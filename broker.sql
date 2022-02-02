@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 27, 2022 at 02:20 PM
+-- Generation Time: Feb 02, 2022 at 07:35 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -235,17 +235,17 @@ CREATE TABLE `entrant` (
   `birthdate` date DEFAULT NULL,
   `organization_id` int(11) DEFAULT NULL,
   `level_id` int(11) DEFAULT NULL,
-  `iin` varchar(25) CHARACTER SET utf8 DEFAULT NULL
+  `iin` varchar(25) CHARACTER SET utf8 DEFAULT NULL,
+  `created_by` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `entrant`
 --
 
-INSERT INTO `entrant` (`id`, `first_name`, `last_name`, `patronymic`, `future_educational_program_id`, `phone_number`, `email`, `sex_id`, `birthdate`, `organization_id`, `level_id`, `iin`) VALUES
-(1, 'Петр', 'Петров', 'Петрович', 1, '+7 812 333 4411', 'asd@asd.asd', 1, '0000-00-00', NULL, NULL, NULL),
-(2, 'Марк', 'Марков', '', 2, '+7 12312312312', '', 1, NULL, NULL, NULL, NULL),
-(3, 'Марк', 'Марков', 'Маркович', 1, '1231231232', '', 1, NULL, NULL, NULL, NULL);
+INSERT INTO `entrant` (`id`, `first_name`, `last_name`, `patronymic`, `future_educational_program_id`, `phone_number`, `email`, `sex_id`, `birthdate`, `organization_id`, `level_id`, `iin`, `created_by`) VALUES
+(4, 'B', 'A', '', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2),
+(5, 'a', 'a', '', 1, 'q3', '', 1, NULL, NULL, 4, '', 2);
 
 -- --------------------------------------------------------
 
@@ -422,7 +422,8 @@ ALTER TABLE `education_level`
 ALTER TABLE `entrant`
   ADD PRIMARY KEY (`id`),
   ADD KEY `future_educational_program_id` (`future_educational_program_id`),
-  ADD KEY `sex_id` (`sex_id`);
+  ADD KEY `sex_id` (`sex_id`),
+  ADD KEY `entrant_user_id_fk` (`created_by`);
 
 --
 -- Indexes for table `menu`
@@ -481,7 +482,7 @@ ALTER TABLE `education_level`
 -- AUTO_INCREMENT for table `entrant`
 --
 ALTER TABLE `entrant`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `menu`
@@ -542,7 +543,8 @@ ALTER TABLE `educational_program`
 --
 ALTER TABLE `entrant`
   ADD CONSTRAINT `entrant_ibfk_1` FOREIGN KEY (`sex_id`) REFERENCES `sex` (`id`),
-  ADD CONSTRAINT `entrant_ibfk_2` FOREIGN KEY (`future_educational_program_id`) REFERENCES `educational_program` (`id`);
+  ADD CONSTRAINT `entrant_ibfk_2` FOREIGN KEY (`future_educational_program_id`) REFERENCES `educational_program` (`id`),
+  ADD CONSTRAINT `entrant_user_id_fk` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `menu`
