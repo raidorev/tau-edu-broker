@@ -1,11 +1,13 @@
 <?php
 
 /**
- * @var View $this
- * @var EntrantSearch $searchModel
+ * @var View               $this
+ * @var EntrantSearch      $searchModel
  * @var ActiveDataProvider $dataProvider
  */
 
+use app\models\auth\AuthAssignment;
+use app\models\auth\User;
 use app\models\entrant\Entrant;
 use app\models\entrant\EntrantSearch;
 use app\models\registry\EducationalProgram;
@@ -16,7 +18,6 @@ use kartik\grid\GridView;
 use kartik\grid\SerialColumn;
 use kartik\icons\Icon;
 use yii\data\ActiveDataProvider;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\Pjax;
@@ -61,6 +62,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ],
             'vAlign' => 'middle',
+        ],
+        [
+            'visible' => Yii::$app->user->can(AuthAssignment::MANAGER),
+            'attribute' => 'created_by',
+            'format' => 'raw',
+            'value' => static function (Entrant $entrant) {
+                return $entrant->createdBy->getShortNameWithEmail(true);
+            },
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => User::find()
+                ->innerJoinWith('entrants')
+                ->selectList(),
+            'filterWidgetOptions' => [
+                'options' => [
+                    'placeholder' => Yii::t('app', 'Выберите маклера'),
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ],
         ],
         'first_name',
         'last_name',

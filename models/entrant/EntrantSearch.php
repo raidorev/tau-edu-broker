@@ -17,7 +17,10 @@ class EntrantSearch extends Entrant
     public function rules(): array
     {
         return [
-            [['id', 'future_educational_program_id', 'sex_id'], 'integer'],
+            [
+                ['id', 'future_educational_program_id', 'sex_id', 'created_by'],
+                'integer',
+            ],
             [
                 [
                     'first_name',
@@ -72,6 +75,7 @@ class EntrantSearch extends Entrant
                 $this->future_educational_program_id,
             'sex_id' => $this->sex_id,
             'birthdate' => $this->birthdate,
+            'created_by' => $this->created_by,
         ]);
 
         if ($this->filled === '1') {
