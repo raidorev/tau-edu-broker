@@ -3,6 +3,9 @@
 namespace app\models\entrant;
 
 use app\models\auth\User;
+use app\models\conflict\Conflict;
+use app\models\conflict\FullNameAndBirthdate;
+use app\models\conflict\Iin;
 use app\models\registry\EducationalOrganization;
 use app\models\registry\EducationalProgram;
 use app\models\registry\EducationalStage;
@@ -59,6 +62,14 @@ class Entrant extends ActiveRecord
         'iin',
     ];
 
+    /**
+     * @return Conflict[]
+     */
+    public static function conflicts(): array
+    {
+        return [new Iin(), new FullNameAndBirthdate()];
+    }
+
     public function scenarios(): array
     {
         $scenarios = parent::scenarios();
@@ -111,6 +122,11 @@ class Entrant extends ActiveRecord
         }
 
         return parent::beforeSave($insert);
+    }
+
+    public static function find(): EntrantQuery
+    {
+        return new EntrantQuery(static::class);
     }
 
     public function attributeLabels(): array
@@ -172,5 +188,17 @@ class Entrant extends ActiveRecord
         $this->scenario = $oldScenario;
 
         return $isValid;
+    }
+
+    public function getShortName(): string
+    {
+        $shortName = "$this->last_name ";
+        $shortName .= mb_substr($this->first_name, 0, 1) . '.';
+
+        if ($this->patronymic) {
+            $shortName .= mb_substr($this->patronymic, 0, 1) . '.';
+        }
+
+        return $shortName;
     }
 }
