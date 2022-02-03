@@ -19,10 +19,7 @@ use yii\web\NotFoundHttpException;
  */
 class EntrantsController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
+    public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [
             'verbs' => [
@@ -82,6 +79,17 @@ class EntrantsController extends Controller
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionView(int $id)
+    {
+        $model = $this->findModel($id);
+        return $this->render('view', ['model' => $model]);
     }
 
     /**

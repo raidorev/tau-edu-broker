@@ -29,6 +29,7 @@ use yii\db\ActiveRecord;
  * @property int|null                     $organization_id
  * @property string|null                  $iin
  * @property int                          $created_by
+ * @property int                          $status_id
  *
  * @property-read EducationalStage        $futureEducationalStage
  * @property-read Sex                     $sex
@@ -37,6 +38,10 @@ use yii\db\ActiveRecord;
  * @property-read EducationLevel          $level
  * @property-read EducationalOrganization $organization
  * @property-read User                    $createdBy
+ * @property-read EntrantStatus           $status
+ *
+ * @property-read string                  $shortName
+ * @property-read string                  $fullName
  */
 class Entrant extends ActiveRecord
 {
@@ -101,6 +106,7 @@ class Entrant extends ActiveRecord
                     'level_id',
                     'organization_id',
                     'created_by',
+                    'status_id',
                 ],
                 'integer',
             ],
@@ -145,6 +151,7 @@ class Entrant extends ActiveRecord
             'level_id' => Yii::t('app', 'Последний уровень образования'),
             'iin' => Yii::t('app', 'ИИН'),
             'created_by' => Yii::t('app', 'Маклер'),
+            'status_id' => Yii::t('app', 'Статус'),
         ];
     }
 
@@ -167,6 +174,13 @@ class Entrant extends ActiveRecord
         return $this->hasOne(Sex::class, ['id' => 'sex_id']);
     }
 
+    public function getLevel(): ActiveQuery
+    {
+        return $this->hasOne(EducationLevel::class, [
+            'id' => 'level_id',
+        ]);
+    }
+
     public function getOrganization(): ActiveQuery
     {
         return $this->hasOne(EducationalOrganization::class, [
@@ -177,6 +191,11 @@ class Entrant extends ActiveRecord
     public function getCreatedBy(): ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'created_by']);
+    }
+
+    public function getStatus(): ActiveQuery
+    {
+        return $this->hasOne(EntrantStatus::class, ['id' => 'status_id']);
     }
 
     public function getIsFilled(): bool
@@ -200,5 +219,16 @@ class Entrant extends ActiveRecord
         }
 
         return $shortName;
+    }
+
+    public function getFullName(): string
+    {
+        $fullName = "$this->last_name $this->first_name";
+
+        if ($this->patronymic) {
+            $fullName .= " $this->patronymic";
+        }
+
+        return $fullName;
     }
 }

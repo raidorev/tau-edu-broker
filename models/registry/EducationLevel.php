@@ -10,6 +10,8 @@ use yii\db\ActiveRecord;
  * @property string      $name_ru
  * @property string|null $name_kk
  * @property string|null $name_en
+ *
+ * @property-read string $name
  */
 class EducationLevel extends ActiveRecord
 {

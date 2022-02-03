@@ -6,10 +6,12 @@ use app\components\helpers\i18n\TranslatableModelTrait;
 use yii\db\ActiveRecord;
 
 /**
- * @property int    $id
- * @property string $name_ru
- * @property string $name_kk
- * @property string $name_en
+ * @property int         $id
+ * @property string      $name_ru
+ * @property string      $name_kk
+ * @property string      $name_en
+ *
+ * @property-read string $name
  */
 class Sex extends ActiveRecord
 {

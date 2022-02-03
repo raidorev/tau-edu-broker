@@ -9,13 +9,15 @@ use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
- * @property int                             $id
- * @property string                          $name_ru
- * @property string|null                     $name_kk
- * @property string|null                     $name_en
+ * @property int                                  $id
+ * @property string                               $name_ru
+ * @property string|null                          $name_kk
+ * @property string|null                          $name_en
  *
- * @property-read EducationLevel[]           $levels
- * @property EducationalOrganizationLevels[] $educationalOrganizationLevels
+ * @property-read string                          $name
+ *
+ * @property-read EducationLevel[]                $levels
+ * @property-read EducationalOrganizationLevels[] $educationalOrganizationLevels
  */
 class EducationalOrganization extends ActiveRecord
 {
