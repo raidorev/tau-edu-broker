@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 02, 2022 at 07:35 AM
+-- Generation Time: Feb 04, 2022 at 09:55 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -40,7 +40,9 @@ CREATE TABLE `auth_assignment` (
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('Маклер', '2', 1642578176),
 ('Маклер', '6', NULL),
-('Маклер', '7', NULL);
+('Маклер', '7', NULL),
+('Менеджер', '2', 1643996773),
+('Менеджер', '3', 1643801341);
 
 -- --------------------------------------------------------
 
@@ -63,6 +65,8 @@ CREATE TABLE `auth_item` (
 --
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('/conflicts/*', 2, NULL, NULL, NULL, 1643804473, 1643804473),
+('/conflicts/index', 2, NULL, NULL, NULL, 1643804474, 1643804474),
 ('/entrants/*', 2, NULL, NULL, NULL, 1640576451, 1640576451),
 ('/entrants/index', 2, NULL, NULL, NULL, 1640576453, 1640576453),
 ('/materials/*', 2, NULL, NULL, NULL, 1640605942, 1640605942),
@@ -71,7 +75,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/registry/educational-organization/index', 2, NULL, NULL, NULL, 1642581864, 1642581864),
 ('/registry/educational-program/*', 2, NULL, NULL, NULL, 1640576443, 1640576443),
 ('/registry/educational-program/index', 2, NULL, NULL, NULL, 1640576441, 1640576441),
-('Маклер', 1, NULL, NULL, NULL, 1640576382, 1640576382);
+('Маклер', 1, NULL, NULL, NULL, 1640576382, 1640576382),
+('Менеджер', 1, NULL, NULL, NULL, 1643800222, 1643800222);
 
 -- --------------------------------------------------------
 
@@ -92,7 +97,12 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Маклер', '/entrants/*'),
 ('Маклер', '/materials/*'),
 ('Маклер', '/registry/educational-organization/*'),
-('Маклер', '/registry/educational-program/*');
+('Маклер', '/registry/educational-program/*'),
+('Менеджер', '/conflicts/*'),
+('Менеджер', '/entrants/*'),
+('Менеджер', '/materials/*'),
+('Менеджер', '/registry/educational-organization/*'),
+('Менеджер', '/registry/educational-program/*');
 
 -- --------------------------------------------------------
 
@@ -106,6 +116,69 @@ CREATE TABLE `auth_rule` (
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `conflict`
+--
+
+CREATE TABLE `conflict` (
+  `id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `reason` varchar(255) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `conflict`
+--
+
+INSERT INTO `conflict` (`id`, `status_id`, `reason`) VALUES
+(21, 1, 'Совпадение ИИН'),
+(22, 1, 'Совпадение ИИН');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `conflict_member`
+--
+
+CREATE TABLE `conflict_member` (
+  `conflict_id` int(11) NOT NULL,
+  `entrant_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `conflict_member`
+--
+
+INSERT INTO `conflict_member` (`conflict_id`, `entrant_id`) VALUES
+(21, 6),
+(21, 7),
+(21, 9),
+(22, 4),
+(22, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `conflict_status`
+--
+
+CREATE TABLE `conflict_status` (
+  `id` int(11) NOT NULL,
+  `name_ru` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `name_kk` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `name_en` varchar(50) CHARACTER SET utf8 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `conflict_status`
+--
+
+INSERT INTO `conflict_status` (`id`, `name_ru`, `name_kk`, `name_en`) VALUES
+(1, 'Открыт', NULL, NULL),
+(2, 'Закрыт', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -236,16 +309,44 @@ CREATE TABLE `entrant` (
   `organization_id` int(11) DEFAULT NULL,
   `level_id` int(11) DEFAULT NULL,
   `iin` varchar(25) CHARACTER SET utf8 DEFAULT NULL,
-  `created_by` int(11) NOT NULL
+  `created_by` int(11) NOT NULL,
+  `status_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `entrant`
 --
 
-INSERT INTO `entrant` (`id`, `first_name`, `last_name`, `patronymic`, `future_educational_program_id`, `phone_number`, `email`, `sex_id`, `birthdate`, `organization_id`, `level_id`, `iin`, `created_by`) VALUES
-(4, 'B', 'A', '', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2),
-(5, 'a', 'a', '', 1, 'q3', '', 1, NULL, NULL, 4, '', 2);
+INSERT INTO `entrant` (`id`, `first_name`, `last_name`, `patronymic`, `future_educational_program_id`, `phone_number`, `email`, `sex_id`, `birthdate`, `organization_id`, `level_id`, `iin`, `created_by`, `status_id`) VALUES
+(4, 'B', 'A', '', 1, '+71112223344', 'asdad@zz', 1, '2022-02-01', 3, 5, '321', 2, NULL),
+(5, 'a', 'a', '', 1, 'q3', 'asdad@zz', 1, '2022-02-01', 3, 5, '321', 2, NULL),
+(6, 'z', 'z', '', 1, '1', 'zzz@zz.zz', 1, '2022-03-02', 3, 4, '123', 3, NULL),
+(7, 'z', 'z', '', 1, '123', 'zxc@raidorev.tech', 1, '2022-03-02', 3, 5, '123', 2, NULL),
+(8, 'Ff', 'Ff', '', 1, '1', 'zzz@zz.zz', 1, '1901-12-15', 3, 4, '111', 3, NULL),
+(9, 'Ffsadfsdafsadfdsafasdf', 'Ffsdafasdfsdafsadfsdafsdaf', 'asdfsafsadfsadfsd', 1, '1', 'raidorev@gmail.com', 1, '2022-02-01', 3, 5, '123', 3, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `entrant_status`
+--
+
+CREATE TABLE `entrant_status` (
+  `id` int(11) NOT NULL,
+  `name_ru` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `name_kk` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `name_en` varchar(50) CHARACTER SET utf8 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `entrant_status`
+--
+
+INSERT INTO `entrant_status` (`id`, `name_ru`, `name_kk`, `name_en`) VALUES
+(1, 'подал документы', NULL, NULL),
+(2, 'заключил договор', NULL, NULL),
+(3, 'оплатил обучение', NULL, NULL),
+(4, 'отклонен', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -271,7 +372,8 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (2, 'ОП', 1, '/registry/educational-program/index', NULL, NULL),
 (3, 'Список потенциальных абитуриентов', NULL, '/entrants/index', NULL, NULL),
 (4, 'Материалы ', NULL, '/materials/index', NULL, NULL),
-(5, 'Организации', 1, '/registry/educational-organization/index', NULL, NULL);
+(5, 'Организации', 1, '/registry/educational-organization/index', NULL, NULL),
+(6, 'Конфликты', NULL, '/conflicts/index', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -383,6 +485,26 @@ ALTER TABLE `auth_rule`
   ADD PRIMARY KEY (`name`);
 
 --
+-- Indexes for table `conflict`
+--
+ALTER TABLE `conflict`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `conflict_conflict_status_id_fk` (`status_id`);
+
+--
+-- Indexes for table `conflict_member`
+--
+ALTER TABLE `conflict_member`
+  ADD PRIMARY KEY (`conflict_id`,`entrant_id`),
+  ADD KEY `table_name_entrant_id_fk` (`entrant_id`);
+
+--
+-- Indexes for table `conflict_status`
+--
+ALTER TABLE `conflict_status`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `educational_organization`
 --
 ALTER TABLE `educational_organization`
@@ -426,6 +548,12 @@ ALTER TABLE `entrant`
   ADD KEY `entrant_user_id_fk` (`created_by`);
 
 --
+-- Indexes for table `entrant_status`
+--
+ALTER TABLE `entrant_status`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `menu`
 --
 ALTER TABLE `menu`
@@ -455,6 +583,18 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `conflict`
+--
+ALTER TABLE `conflict`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `conflict_status`
+--
+ALTER TABLE `conflict_status`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `educational_organization`
 --
 ALTER TABLE `educational_organization`
@@ -482,13 +622,19 @@ ALTER TABLE `education_level`
 -- AUTO_INCREMENT for table `entrant`
 --
 ALTER TABLE `entrant`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `entrant_status`
+--
+ALTER TABLE `entrant_status`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `sex`
@@ -524,6 +670,19 @@ ALTER TABLE `auth_item`
 ALTER TABLE `auth_item_child`
   ADD CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `conflict`
+--
+ALTER TABLE `conflict`
+  ADD CONSTRAINT `conflict_conflict_status_id_fk` FOREIGN KEY (`status_id`) REFERENCES `conflict_status` (`id`);
+
+--
+-- Constraints for table `conflict_member`
+--
+ALTER TABLE `conflict_member`
+  ADD CONSTRAINT `table_name_conflict_id_fk` FOREIGN KEY (`conflict_id`) REFERENCES `conflict` (`id`),
+  ADD CONSTRAINT `table_name_entrant_id_fk` FOREIGN KEY (`entrant_id`) REFERENCES `entrant` (`id`);
 
 --
 -- Constraints for table `educational_organization_levels`
