@@ -1,11 +1,11 @@
 <?php
 
-namespace app\models\conflict;
+namespace app\models\conflict\detectors;
 
 use app\models\entrant\Entrant;
 use Yii;
 
-class FullNameAndBirthdate implements Conflict
+class FullNameAndBirthdate extends BaseDetector
 {
     public function getReason(): string
     {
@@ -13,9 +13,9 @@ class FullNameAndBirthdate implements Conflict
     }
 
     /**
-     * @return Entrant[]
+     * @return Entrant[][]
      */
-    public function getEntrants(): array
+    public function getIntersections(): array
     {
         static $fields = ['first_name', 'last_name', 'patronymic', 'birthdate'];
 

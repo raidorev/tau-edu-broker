@@ -2,33 +2,29 @@
 
 namespace app\controllers;
 
-use app\models\entrant\Entrant;
-use yii\helpers\ArrayHelper;
+use app\models\conflict\Conflict;
+use app\models\conflict\ConflictSearch;
 use yii\web\Controller;
 
 class ConflictsController extends Controller
 {
     public function actionIndex()
     {
-        $conflicts = [];
-        foreach (Entrant::conflicts() as $conflict) {
-            $entrantGroups = $conflict->getEntrants();
-            foreach ($entrantGroups as $entrants) {
-                $brokers = ArrayHelper::getColumn($entrants, 'createdBy');
-                $uniqueBrokers = [];
-                foreach ($brokers as $broker) {
-                    $uniqueBrokers[$broker->id] = $broker;
-                }
-                $uniqueBrokers = array_values($uniqueBrokers);
+        $searchModel = new ConflictSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
 
-                $conflicts[] = [
-                    'reason' => $conflict->getReason(),
-                    'entrants' => $entrants,
-                    'brokers' => $uniqueBrokers,
-                ];
-            }
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionUpdate()
+    {
+        foreach (Conflict::detectors() as $detector) {
+            $detector->createConflicts();
         }
 
-        return $this->render('index', ['conflicts' => $conflicts]);
+        return $this->redirect(['index']);
     }
 }

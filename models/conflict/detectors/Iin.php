@@ -1,11 +1,11 @@
 <?php
 
-namespace app\models\conflict;
+namespace app\models\conflict\detectors;
 
 use app\models\entrant\Entrant;
 use Yii;
 
-class Iin implements Conflict
+class Iin extends BaseDetector
 {
     public function getReason(): string
     {
@@ -13,9 +13,9 @@ class Iin implements Conflict
     }
 
     /**
-     * @return Entrant[]
+     * @return Entrant[][]
      */
-    public function getEntrants(): array
+    public function getIntersections(): array
     {
         $fields = ['iin'];
 

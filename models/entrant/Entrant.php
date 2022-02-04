@@ -3,9 +3,9 @@
 namespace app\models\entrant;
 
 use app\models\auth\User;
-use app\models\conflict\Conflict;
-use app\models\conflict\FullNameAndBirthdate;
-use app\models\conflict\Iin;
+use app\models\conflict\detectors\ConflictDetector;
+use app\models\conflict\detectors\FullNameAndBirthdate;
+use app\models\conflict\detectors\Iin;
 use app\models\registry\EducationalOrganization;
 use app\models\registry\EducationalProgram;
 use app\models\registry\EducationalStage;
@@ -66,14 +66,6 @@ class Entrant extends ActiveRecord
         'level_id',
         'iin',
     ];
-
-    /**
-     * @return Conflict[]
-     */
-    public static function conflicts(): array
-    {
-        return [new Iin(), new FullNameAndBirthdate()];
-    }
 
     public function scenarios(): array
     {
