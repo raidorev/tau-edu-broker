@@ -15,6 +15,8 @@ class EntrantStatus extends ActiveRecord
 {
     use TranslatableModelTrait;
 
+    public const REJECTED = 4;
+
     public static function tableName(): string
     {
         return 'entrant_status';

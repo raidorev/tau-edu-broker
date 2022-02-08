@@ -1,0 +1,1 @@
+{"version":3,"names":[],"mappings":"","sources":["views/site/index.css"],"sourcesContent":[".section-intro {\n  background: url(\"https://picsum.photos/1920/1080\") center center/cover no-repeat fixed #fff;\n  height: calc(100vh - 76px);\n}\n.section-intro__text {\n  background-color: rgba(255, 255, 255, 0.7);\n}"],"file":"index.css"}

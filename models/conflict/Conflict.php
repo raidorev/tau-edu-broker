@@ -7,17 +7,20 @@ use app\models\conflict\detectors\ConflictDetector;
 use app\models\conflict\detectors\FullNameAndBirthdate;
 use app\models\conflict\detectors\Iin;
 use app\models\entrant\Entrant;
+use app\models\entrant\EntrantStatus;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\db\Exception;
 
 /**
  * @property int                 $id
  * @property int                 $status_id
  * @property string              $reason
  *
- * @property-read Entrant[]      $entrants
  * @property-read ConflictMember $members
  * @property-read ConflictStatus $status
+ * @property-read Entrant[]      $entrants
+ * @property-read User           $brokers
  */
 class Conflict extends ActiveRecord
 {
@@ -79,5 +82,23 @@ class Conflict extends ActiveRecord
     public static function find(): ConflictQuery
     {
         return new ConflictQuery(static::class);
+    }
+
+    public function resolve(int $entrantId, int $brokerId): void
+    {
+        $this->status_id = ConflictStatus::RESOLVED;
+        if (!$this->save()) {
+            throw new Exception('Cannot resolve conflict');
+        }
+
+        foreach ($this->entrants as $entrant) {
+            if ((int) $entrant->id !== $entrantId) {
+                $entrant->status_id = EntrantStatus::REJECTED;
+            } else {
+                $entrant->created_by = $brokerId;
+            }
+
+            $entrant->save();
+        }
     }
 }

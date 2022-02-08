@@ -34,6 +34,7 @@ class ConflictSearch extends Conflict
     public function search($params): ActiveDataProvider
     {
         $query = Conflict::find()
+            ->alias('c')
             ->innerJoinWith('entrants e')
             ->innerJoinWith('brokers b');
 
@@ -50,8 +51,7 @@ class ConflictSearch extends Conflict
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'status_id' => $this->status_id,
+            'c.status_id' => $this->status_id,
             'e.id' => $this->membersIds,
             'b.id' => $this->brokerIds,
         ]);

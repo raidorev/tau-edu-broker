@@ -26,6 +26,7 @@ use yii\widgets\Pjax;
 <?php Pjax::begin(); ?>
 
 <?= GridView::widget([
+    'responsive' => true,
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'panel' => [
@@ -50,34 +51,6 @@ use yii\widgets\Pjax;
     'toggleDataOptions' => ['minCount' => 10],
     'columns' => [
         ['class' => SerialColumn::class],
-
-        [
-            'class' => ActionColumn::class,
-            'dropdown' => true,
-            'template' => '{resolve}',
-            'buttons' => [
-                'resolve' => static function (string $url, Conflict $model) {
-                    if ($model->status_id === ConflictStatus::RESOLVED) {
-                        return '';
-                    }
-
-                    return Html::a(
-                        Icon::show('gavel') . Yii::t('app', 'Решить'),
-                        $url,
-                        [
-                            'class' => ['dropdown-item'],
-                            'title' => Yii::t('app', 'Решить'),
-                            'aria' => [
-                                'label' => Yii::t('app', 'Решить'),
-                            ],
-                            'data' => [
-                                'pjax' => 0,
-                            ],
-                        ]
-                    );
-                },
-            ],
-        ],
 
         [
             'attribute' => 'membersIds',
@@ -106,7 +79,6 @@ use yii\widgets\Pjax;
                 ],
                 'pluginOptions' => [
                     'allowClear' => true,
-                    'multiple' => true,
                 ],
             ],
         ],
@@ -148,8 +120,52 @@ use yii\widgets\Pjax;
                 ],
                 'pluginOptions' => [
                     'allowClear' => true,
-                    'multiple' => true,
+                    // 'multiple' => true,
                 ],
+            ],
+        ],
+
+        [
+            'attribute' => 'status_id',
+            'label' => Yii::t('app', 'Статус'),
+            'value' => 'status.name',
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => ConflictStatus::find()->selectList(),
+            'filterWidgetOptions' => [
+                'options' => [
+                    'placeholder' => Yii::t('app', 'Выберите статус'),
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ],
+        ],
+
+        [
+            'class' => ActionColumn::class,
+            'dropdown' => true,
+            'template' => '{resolve}',
+            'buttons' => [
+                'resolve' => static function (string $url, Conflict $model) {
+                    if ($model->status_id === ConflictStatus::RESOLVED) {
+                        return '';
+                    }
+
+                    return Html::a(
+                        Icon::show('gavel') . Yii::t('app', 'Решить'),
+                        $url,
+                        [
+                            'class' => ['dropdown-item'],
+                            'title' => Yii::t('app', 'Решить'),
+                            'aria' => [
+                                'label' => Yii::t('app', 'Решить'),
+                            ],
+                            'data' => [
+                                'pjax' => 0,
+                            ],
+                        ]
+                    );
+                },
             ],
         ],
     ],
