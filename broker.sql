@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2022 at 09:55 PM
+-- Generation Time: Feb 08, 2022 at 07:53 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -134,7 +134,7 @@ CREATE TABLE `conflict` (
 --
 
 INSERT INTO `conflict` (`id`, `status_id`, `reason`) VALUES
-(21, 1, 'Совпадение ИИН'),
+(21, 2, 'Совпадение ИИН'),
 (22, 1, 'Совпадение ИИН');
 
 -- --------------------------------------------------------
@@ -320,10 +320,10 @@ CREATE TABLE `entrant` (
 INSERT INTO `entrant` (`id`, `first_name`, `last_name`, `patronymic`, `future_educational_program_id`, `phone_number`, `email`, `sex_id`, `birthdate`, `organization_id`, `level_id`, `iin`, `created_by`, `status_id`) VALUES
 (4, 'B', 'A', '', 1, '+71112223344', 'asdad@zz', 1, '2022-02-01', 3, 5, '321', 2, NULL),
 (5, 'a', 'a', '', 1, 'q3', 'asdad@zz', 1, '2022-02-01', 3, 5, '321', 2, NULL),
-(6, 'z', 'z', '', 1, '1', 'zzz@zz.zz', 1, '2022-03-02', 3, 4, '123', 3, NULL),
+(6, 'z', 'z', '', 1, '1', 'zzz@zz.zz', 1, '2022-03-02', 3, 4, '123', 3, 4),
 (7, 'z', 'z', '', 1, '123', 'zxc@raidorev.tech', 1, '2022-03-02', 3, 5, '123', 2, NULL),
 (8, 'Ff', 'Ff', '', 1, '1', 'zzz@zz.zz', 1, '1901-12-15', 3, 4, '111', 3, NULL),
-(9, 'Ffsadfsdafsadfdsafasdf', 'Ffsdafasdfsdafsadfsdafsdaf', 'asdfsafsadfsadfsd', 1, '1', 'raidorev@gmail.com', 1, '2022-02-01', 3, 5, '123', 3, NULL);
+(9, 'Ffsadfsdafsadfdsafasdf', 'Ffsdafasdfsdafsadfsdafsdaf', 'asdfsafsadfsadfsd', 1, '1', 'raidorev@gmail.com', 1, '2022-02-01', 3, 5, '123', 3, 4);
 
 -- --------------------------------------------------------
 
