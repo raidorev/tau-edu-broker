@@ -6,6 +6,7 @@ import gulpIf from 'gulp-if'
 import postcss from 'gulp-postcss'
 import gulpSass from 'gulp-sass'
 import sourcemaps from 'gulp-sourcemaps'
+import ts from 'gulp-typescript'
 import sassLib from 'sass'
 
 const isDevelopment = process.env.NODE_ENV === 'development'
@@ -13,6 +14,7 @@ const isProduction = !isDevelopment
 
 const sourceGlobs = {
   styles: './resources/styles/**/*.s[ac]ss',
+  scripts: './resources/scripts/**/*.ts',
 }
 
 const sass = gulpSass(sassLib)
@@ -25,7 +27,7 @@ const compileSass = () =>
     .pipe(
       sass({
         includePaths: ['node_modules'],
-      }).on('error', sass.logError),
+      }).on('error', sass.logError)
     )
     .pipe(gulpIf(isDevelopment, sourcemaps.init()))
     .pipe(gulpIf(isProduction, postcss([autoprefixer()])))
@@ -33,7 +35,18 @@ const compileSass = () =>
     .pipe(gulpIf(isDevelopment, sourcemaps.write('.')))
     .pipe(gulp.dest('./web/dist/css'))
 
-const build = gulp.series(clean, gulp.parallel([compileSass]))
+const compileTypescript = () =>
+  gulp
+    .src(sourceGlobs.scripts)
+    .pipe(ts())
+    .pipe(gulpIf(isDevelopment, sourcemaps.init()))
+    .pipe(gulpIf(isDevelopment, sourcemaps.write('.')))
+    .pipe(gulp.dest('./web/dist/js'))
+
+const build = gulp.series(
+  clean,
+  gulp.parallel([compileSass, compileTypescript])
+)
 
 gulp.task('default', build)
 gulp.task('watch', () => gulp.watch(Object.values(sourceGlobs), build))
