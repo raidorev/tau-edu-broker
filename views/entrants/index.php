@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <p>
     <?= Html::a(
-        Yii::t('app', 'Добавить абтуриента'),
+        Yii::t('app', 'Добавить абитуриента'),
         ['create'],
         ['class' => 'btn btn-primary']
     ) ?>
