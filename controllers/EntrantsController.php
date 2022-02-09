@@ -81,10 +81,27 @@ class EntrantsController extends Controller
         ]);
     }
 
+    public function actionChangeStatus(int $id)
+    {
+        $entrant = $this->findModel($id);
+        $entrant->scenario = Entrant::SCENARIO_STATUS_CHANGE;
+
+        if ($entrant->load($this->request->post()) && $entrant->save()) {
+            Yii::$app->session->addFlash(
+                'success',
+                Yii::t('app', 'Статус успешно изменен')
+            );
+            return $this->redirect('index');
+        }
+
+        return $this->render('approve', ['entrant' => $entrant]);
+    }
+
     /**
      * @param int $id
      *
-     * @throws NotFoundHttpException if the model cannot be found
+     * @return string
+     * @throws NotFoundHttpException
      */
     public function actionView(int $id)
     {

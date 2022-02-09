@@ -18,7 +18,13 @@ class EntrantSearch extends Entrant
     {
         return [
             [
-                ['id', 'future_educational_program_id', 'sex_id', 'created_by'],
+                [
+                    'id',
+                    'future_educational_program_id',
+                    'sex_id',
+                    'created_by',
+                    'status_id',
+                ],
                 'integer',
             ],
             [
@@ -76,6 +82,8 @@ class EntrantSearch extends Entrant
             'sex_id' => $this->sex_id,
             'birthdate' => $this->birthdate,
             'created_by' => $this->created_by,
+            'status_id' =>
+                (int) $this->status_id === -1 ? null : $this->status_id,
         ]);
 
         if ($this->filled === '1') {

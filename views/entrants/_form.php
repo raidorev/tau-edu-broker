@@ -36,15 +36,19 @@ use yii\web\View;
             ->textInput(['maxlength' => true]) ?>
     </div>
     <div class="col-12 col-md-6">
-        <?= $form
-            ->field($model, 'iin')
-            ->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'iin')->textInput(['maxlength' => true]) ?>
     </div>
     <div class="col-12 col-md-6">
         <?= $form
             ->field($model, 'future_educational_program_id')
             ->widget(Select2::class, [
                 'data' => EducationalProgram::find()->selectList(),
+                'options' => [
+                    'placeholder' => Yii::t('app', 'Выберите ОП'),
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
             ]) ?>
     </div>
     <div class="col-12 col-md-6">
@@ -52,14 +56,24 @@ use yii\web\View;
             'id' => 'level',
             'name' => 'level',
             'data' => EducationLevel::find()->selectList(),
+            'options' => [
+                'placeholder' => Yii::t('app', 'Выберите уровень образования'),
+            ],
+            'pluginOptions' => [
+                'allowClear' => true,
+            ],
         ]) ?>
     </div>
     <div class="col-12 col-md-6">
         <?= $form->field($model, 'organization_id')->widget(DepDrop::class, [
             'type' => DepDrop::TYPE_SELECT2,
             'pluginOptions' => [
+                'allowClear' => true,
                 'depends' => ['entrant-level_id'],
                 'url' => Url::to(['organizations']),
+            ],
+            'options' => [
+                'placeholder' => Yii::t('app', 'Выберите организацию'),
             ],
         ]) ?>
     </div>

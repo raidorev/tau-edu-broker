@@ -10,6 +10,7 @@ use app\models\auth\AuthAssignment;
 use app\models\auth\User;
 use app\models\entrant\Entrant;
 use app\models\entrant\EntrantSearch;
+use app\models\entrant\EntrantStatus;
 use app\models\registry\EducationalProgram;
 use app\models\registry\Sex;
 use kartik\grid\ActionColumn;
@@ -47,9 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'class' => BooleanColumn::class,
             'label' => Yii::t('app', 'Заполнен'),
             'attribute' => 'filled',
-            'value' => static function (Entrant $model) {
-                return $model->isFilled;
-            },
+            'value' => 'isFilled',
             'trueLabel' => Yii::t('app', 'Да'),
             'falseLabel' => Yii::t('app', 'Нет'),
             'filterType' => GridView::FILTER_SELECT2,
@@ -63,6 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'vAlign' => 'middle',
         ],
+
         [
             'visible' => Yii::$app->user->can(AuthAssignment::MANAGER),
             'attribute' => 'created_by',
@@ -83,9 +83,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ],
         ],
+
         'first_name',
+
         'last_name',
+
         'patronymic',
+
         [
             'attribute' => 'future_educational_program_id',
             'value' => 'futureEducationalProgram.code',
@@ -100,9 +104,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ],
         ],
+
         [
             'attribute' => 'sex_id',
-            'value' => 'sex.name_ru',
+            'value' => 'sex.name',
             'filterType' => GridView::FILTER_SELECT2,
             'filter' => Sex::find()->selectList(),
             'filterWidgetOptions' => [
@@ -116,9 +121,37 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
 
         [
+            // TODO: Фильтр по инревалу
+            'attribute' => 'created_at',
+            'label' => Yii::t('app', 'Создан'),
+            'value' => static function (Entrant $entrant) {
+                // TODO: Русская и казахская локаль
+                return (new DateTime($entrant->created_at))->format('d M Y');
+            },
+        ],
+
+        [
+            'attribute' => 'status_id',
+            'label' => Yii::t('app', 'Статус'),
+            'value' => 'status.name',
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => EntrantStatus::find()->selectList(
+                Yii::t('app', 'Не подтвержен')
+            ),
+            'filterWidgetOptions' => [
+                'options' => [
+                    'placeholder' => Yii::t('app', 'Выберите статус'),
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ],
+        ],
+
+        [
             'class' => ActionColumn::class,
             'dropdown' => true,
-            'template' => '{fill}{update}{delete}',
+            'template' => '{fill}{update}{delete}{change-status}',
             'buttons' => [
                 'fill' => static function (string $url, Entrant $model) {
                     if ($model->isFilled) {
@@ -133,6 +166,27 @@ $this->params['breadcrumbs'][] = $this->title;
                             'title' => Yii::t('app', 'Заполнить'),
                             'aria' => [
                                 'label' => Yii::t('app', 'Заполнить'),
+                            ],
+                            'data' => [
+                                'pjax' => 0,
+                            ],
+                        ]
+                    );
+                },
+                'change-status' => static function (string $url, Entrant $model) {
+                    if (!Yii::$app->user->can('Подтверждение абитуриентов') || !$model->isFilled) {
+                        return '';
+                    }
+
+                    return Html::a(
+                        Icon::show('graduation-cap') .
+                            Yii::t('app', 'Изменить статус'),
+                        $url,
+                        [
+                            'class' => ['dropdown-item'],
+                            'title' => Yii::t('app', 'Изменить статус'),
+                            'aria' => [
+                                'label' => Yii::t('app', 'Изменить статус'),
                             ],
                             'data' => [
                                 'pjax' => 0,

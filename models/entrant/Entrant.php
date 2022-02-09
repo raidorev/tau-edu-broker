@@ -47,6 +47,7 @@ class Entrant extends ActiveRecord
 {
     public const SCENARIO_STAGE_ONE = 'STAGE_ONE';
     public const SCENARIO_STAGE_TWO = 'STAGE_TWO';
+    public const SCENARIO_STATUS_CHANGE = 'STATUS_CHANGE';
 
     public const STAGE_ONE_REQUIRED = [
         'first_name',
@@ -66,6 +67,7 @@ class Entrant extends ActiveRecord
         'level_id',
         'iin',
     ];
+    public const STATUS_CHANGE_REQUIRED = ['status_id'];
 
     public function scenarios(): array
     {
@@ -73,6 +75,7 @@ class Entrant extends ActiveRecord
 
         $scenarios[self::SCENARIO_STAGE_ONE] = array_keys($this->attributes);
         $scenarios[self::SCENARIO_STAGE_TWO] = array_keys($this->attributes);
+        $scenarios[self::SCENARIO_STATUS_CHANGE] = ['status_id'];
 
         return $scenarios;
     }
@@ -90,6 +93,11 @@ class Entrant extends ActiveRecord
                 self::STAGE_TWO_REQUIRED,
                 'required',
                 'on' => self::SCENARIO_STAGE_TWO,
+            ],
+            [
+                self::STATUS_CHANGE_REQUIRED,
+                'required',
+                'on' => self::SCENARIO_STATUS_CHANGE,
             ],
             [
                 [
