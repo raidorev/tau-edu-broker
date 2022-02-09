@@ -3,20 +3,20 @@
 namespace app\models\entrant;
 
 use app\models\auth\User;
-use app\models\conflict\detectors\ConflictDetector;
-use app\models\conflict\detectors\FullNameAndBirthdate;
-use app\models\conflict\detectors\Iin;
 use app\models\registry\EducationalOrganization;
 use app\models\registry\EducationalProgram;
 use app\models\registry\EducationalStage;
 use app\models\registry\EducationLevel;
 use app\models\registry\Sex;
 use Yii;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 /**
  * @property int                          $id
+ * @property int                          $status_id
  * @property string                       $first_name
  * @property string                       $last_name
  * @property string|null                  $patronymic
@@ -29,7 +29,7 @@ use yii\db\ActiveRecord;
  * @property int|null                     $organization_id
  * @property string|null                  $iin
  * @property int                          $created_by
- * @property int                          $status_id
+ * @property string                       $created_at
  *
  * @property-read EducationalStage        $futureEducationalStage
  * @property-read Sex                     $sex
@@ -127,6 +127,17 @@ class Entrant extends ActiveRecord
         return new EntrantQuery(static::class);
     }
 
+    public function behaviors(): array
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'value' => new Expression('CURRENT_TIMESTAMP'),
+                'updatedAtAttribute' => false,
+            ],
+        ];
+    }
+
     public function attributeLabels(): array
     {
         return [
@@ -143,6 +154,7 @@ class Entrant extends ActiveRecord
             'level_id' => Yii::t('app', 'Последний уровень образования'),
             'iin' => Yii::t('app', 'ИИН'),
             'created_by' => Yii::t('app', 'Маклер'),
+            'created_at' => Yii::t('app', 'Создан'),
             'status_id' => Yii::t('app', 'Статус'),
         ];
     }
