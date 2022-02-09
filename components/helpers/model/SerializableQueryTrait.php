@@ -21,15 +21,17 @@ trait SerializableQueryTrait
         int $emptyKey = -1
     ): array {
         $list = $this->all();
-        if ($emptyName) {
-            $list[$emptyKey] = $emptyName;
-        }
-
-        return ListHelper::toSelectList(
+        $list = ListHelper::toSelectList(
             $list,
             $this->listIdFieldName(),
             $this->listNameFieldName()
         );
+
+        if ($emptyName) {
+            $list[$emptyKey] = $emptyName;
+        }
+
+        return $list;
     }
 
     public function depDropList(
@@ -37,14 +39,16 @@ trait SerializableQueryTrait
         int $emptyKey = -1
     ): array {
         $list = $this->all();
-        if ($emptyName) {
-            $list[$emptyKey] = $emptyName;
-        }
-
-        return ListHelper::toDepDropList(
+        $list = ListHelper::toDepDropList(
             $list,
             $this->listIdFieldName(),
             $this->listNameFieldName()
         );
+
+        if ($emptyName) {
+            $list[$emptyKey] = $emptyName;
+        }
+
+        return $list;
     }
 }
