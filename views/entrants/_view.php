@@ -1,7 +1,8 @@
 <?php
 /**
- * @var View    $this
- * @var Entrant $entrant
+ * @var View        $this
+ * @var Entrant     $entrant
+ * @var string|null $cardId
  */
 
 use app\models\entrant\Entrant;
@@ -9,6 +10,7 @@ use kartik\detail\DetailView;
 use yii\web\View;
 ?>
 <?= DetailView::widget([
+    'id' => $cardId,
     'model' => $entrant,
     'condensed' => true,
     'hover' => true,
