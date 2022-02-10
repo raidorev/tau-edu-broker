@@ -82,10 +82,6 @@ $config = [
                     'class' => PhpMessageSource::class,
                     'basePath' => '@vendor/kartik-v/yii2-export/messages',
                 ],
-                'kvgrid' => [
-                    'class' => PhpMessageSource::class,
-                    'basePath' => '@vendor/kartik-v/yii2-grid/messages',
-                ],
             ],
         ],
         'errorHandler' => [
