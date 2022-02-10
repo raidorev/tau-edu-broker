@@ -3,6 +3,7 @@
 namespace app\models\entrant;
 
 use app\models\auth\User;
+use app\models\conflict\Conflict;
 use app\models\registry\EducationalOrganization;
 use app\models\registry\EducationalProgram;
 use app\models\registry\EducationalStage;
@@ -128,6 +129,15 @@ class Entrant extends ActiveRecord
         }
 
         return parent::beforeSave($insert);
+    }
+
+    public function afterSave($insert, $changedAttributes): void
+    {
+        foreach (Conflict::detectors() as $detector) {
+            $detector->createConflicts();
+        }
+
+        parent::afterSave($insert, $changedAttributes);
     }
 
     public static function find(): EntrantQuery
