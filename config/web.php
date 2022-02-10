@@ -1,5 +1,6 @@
 <?php
 
+use yii\i18n\PhpMessageSource;
 use app\components\helpers\ConfigHelper;
 use app\components\helpers\i18n\LanguageSelector;
 use app\models\auth\User;
@@ -74,6 +75,18 @@ $config = [
         ],
         'authManager' => [
             'class' => DbManager::class,
+        ],
+        'i18n' => [
+            'translations' => [
+                'kvexport' => [
+                    'class' => PhpMessageSource::class,
+                    'basePath' => '@vendor/kartik-v/yii2-export/messages',
+                ],
+                'kvgrid' => [
+                    'class' => PhpMessageSource::class,
+                    'basePath' => '@vendor/kartik-v/yii2-grid/messages',
+                ],
+            ],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
