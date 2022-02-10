@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 08, 2022 at 07:53 PM
+-- Generation Time: Feb 10, 2022 at 12:28 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -38,7 +38,6 @@ CREATE TABLE `auth_assignment` (
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('Маклер', '2', 1642578176),
 ('Маклер', '6', NULL),
 ('Маклер', '7', NULL),
 ('Менеджер', '2', 1643996773),
@@ -69,6 +68,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/conflicts/index', 2, NULL, NULL, NULL, 1643804474, 1643804474),
 ('/entrants/*', 2, NULL, NULL, NULL, 1640576451, 1640576451),
 ('/entrants/index', 2, NULL, NULL, NULL, 1640576453, 1640576453),
+('/gridview/*', 2, NULL, NULL, NULL, 1644484900, 1644484900),
+('/gridview/export/*', 2, NULL, NULL, NULL, 1644484896, 1644484896),
 ('/materials/*', 2, NULL, NULL, NULL, 1640605942, 1640605942),
 ('/materials/index', 2, NULL, NULL, NULL, 1640605940, 1640605940),
 ('/registry/educational-organization/*', 2, NULL, NULL, NULL, 1642581862, 1642581862),
@@ -76,7 +77,15 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/registry/educational-program/*', 2, NULL, NULL, NULL, 1640576443, 1640576443),
 ('/registry/educational-program/index', 2, NULL, NULL, NULL, 1640576441, 1640576441),
 ('Маклер', 1, NULL, NULL, NULL, 1640576382, 1640576382),
-('Менеджер', 1, NULL, NULL, NULL, 1643800222, 1643800222);
+('Менеджер', 1, NULL, NULL, NULL, 1643800222, 1643800222),
+('Подтверждение абитуриентов', 2, NULL, NULL, NULL, 1644427784, 1644427784),
+('Просмотр материалов маклера', 2, NULL, NULL, NULL, 1644423532, 1644423532),
+('Просмотр отчетов', 2, NULL, NULL, NULL, 1644423547, 1644423547),
+('Работа с потенциальными абитуриентами', 2, 'Добавление и редактирование потенциальных абитуриентов', NULL, NULL, 1644423510, 1644423510),
+('Работа со всеми потенциальными абитуриентами', 2, 'Просмотр и редактирование потенциальных абитуриентов любого маклера', NULL, NULL, 1644423586, 1644423631),
+('Редактирование реестра ОП', 2, 'Добавление и редактирование образовательных программ', NULL, NULL, 1644423395, 1644423407),
+('Редактирование реестра организаций образования', 2, 'Добавление и редактирование организаций образования', NULL, NULL, 1644423448, 1644423448),
+('Решение конфликтов', 2, NULL, NULL, NULL, 1644423310, 1644423310);
 
 -- --------------------------------------------------------
 
@@ -94,15 +103,22 @@ CREATE TABLE `auth_item_child` (
 --
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
-('Маклер', '/entrants/*'),
-('Маклер', '/materials/*'),
-('Маклер', '/registry/educational-organization/*'),
-('Маклер', '/registry/educational-program/*'),
-('Менеджер', '/conflicts/*'),
-('Менеджер', '/entrants/*'),
-('Менеджер', '/materials/*'),
-('Менеджер', '/registry/educational-organization/*'),
-('Менеджер', '/registry/educational-program/*');
+('Маклер', 'Просмотр материалов маклера'),
+('Маклер', 'Работа с потенциальными абитуриентами'),
+('Маклер', 'Редактирование реестра ОП'),
+('Маклер', 'Редактирование реестра организаций образования'),
+('Менеджер', 'Маклер'),
+('Менеджер', 'Подтверждение абитуриентов'),
+('Менеджер', 'Просмотр отчетов'),
+('Менеджер', 'Работа со всеми потенциальными абитуриентами'),
+('Менеджер', 'Решение конфликтов'),
+('Просмотр материалов маклера', '/materials/*'),
+('Просмотр отчетов', '/gridview/export/*'),
+('Работа с потенциальными абитуриентами', '/entrants/*'),
+('Работа со всеми потенциальными абитуриентами', '/entrants/*'),
+('Редактирование реестра ОП', '/registry/educational-program/*'),
+('Редактирование реестра организаций образования', '/registry/educational-organization/*'),
+('Решение конфликтов', '/conflicts/*');
 
 -- --------------------------------------------------------
 
@@ -129,14 +145,6 @@ CREATE TABLE `conflict` (
   `reason` varchar(255) CHARACTER SET utf8 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `conflict`
---
-
-INSERT INTO `conflict` (`id`, `status_id`, `reason`) VALUES
-(21, 2, 'Совпадение ИИН'),
-(22, 1, 'Совпадение ИИН');
-
 -- --------------------------------------------------------
 
 --
@@ -147,17 +155,6 @@ CREATE TABLE `conflict_member` (
   `conflict_id` int(11) NOT NULL,
   `entrant_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `conflict_member`
---
-
-INSERT INTO `conflict_member` (`conflict_id`, `entrant_id`) VALUES
-(21, 6),
-(21, 7),
-(21, 9),
-(22, 4),
-(22, 5);
 
 -- --------------------------------------------------------
 
@@ -310,20 +307,37 @@ CREATE TABLE `entrant` (
   `level_id` int(11) DEFAULT NULL,
   `iin` varchar(25) CHARACTER SET utf8 DEFAULT NULL,
   `created_by` int(11) NOT NULL,
-  `status_id` int(11) DEFAULT NULL
+  `status_id` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `entrant`
 --
 
-INSERT INTO `entrant` (`id`, `first_name`, `last_name`, `patronymic`, `future_educational_program_id`, `phone_number`, `email`, `sex_id`, `birthdate`, `organization_id`, `level_id`, `iin`, `created_by`, `status_id`) VALUES
-(4, 'B', 'A', '', 1, '+71112223344', 'asdad@zz', 1, '2022-02-01', 3, 5, '321', 2, NULL),
-(5, 'a', 'a', '', 1, 'q3', 'asdad@zz', 1, '2022-02-01', 3, 5, '321', 2, NULL),
-(6, 'z', 'z', '', 1, '1', 'zzz@zz.zz', 1, '2022-03-02', 3, 4, '123', 3, 4),
-(7, 'z', 'z', '', 1, '123', 'zxc@raidorev.tech', 1, '2022-03-02', 3, 5, '123', 2, NULL),
-(8, 'Ff', 'Ff', '', 1, '1', 'zzz@zz.zz', 1, '1901-12-15', 3, 4, '111', 3, NULL),
-(9, 'Ffsadfsdafsadfdsafasdf', 'Ffsdafasdfsdafsadfsdafsdaf', 'asdfsafsadfsadfsd', 1, '1', 'raidorev@gmail.com', 1, '2022-02-01', 3, 5, '123', 3, 4);
+INSERT INTO `entrant` (`id`, `first_name`, `last_name`, `patronymic`, `future_educational_program_id`, `phone_number`, `email`, `sex_id`, `birthdate`, `organization_id`, `level_id`, `iin`, `created_by`, `status_id`, `created_at`) VALUES
+(14, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', 'zx', 1, '2000-02-24', 3, 4, '11123', 2, 2, '2022-02-09 22:49:55'),
+(15, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(16, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(17, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(18, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(19, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(20, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(21, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(22, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(23, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(24, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(25, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(26, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(27, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(28, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(29, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(30, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(31, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(32, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(33, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(34, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55'),
+(35, 'Василий', 'Пупкин', 'Васильевич', 1, '+71112223344', '', 1, NULL, NULL, 4, '', 2, NULL, '2022-02-09 22:49:55');
 
 -- --------------------------------------------------------
 
@@ -622,7 +636,7 @@ ALTER TABLE `education_level`
 -- AUTO_INCREMENT for table `entrant`
 --
 ALTER TABLE `entrant`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `entrant_status`
