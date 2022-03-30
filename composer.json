@@ -40,7 +40,8 @@
         "kartik-v/yii2-detail-view": "dev-master",
         "kartik-v/yii2-mpdf": "dev-master",
         "kartik-v/yii2-export": "dev-master",
-        "kartik-v/yii2-dialog": "dev-master"
+        "kartik-v/yii2-dialog": "dev-master",
+        "symfony/polyfill-mbstring": "1.19.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
