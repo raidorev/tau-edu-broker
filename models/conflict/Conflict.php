@@ -84,7 +84,7 @@ class Conflict extends ActiveRecord
         return new ConflictQuery(static::class);
     }
 
-    public function resolve(int $entrantId, int $brokerId): void
+    public function resolve(int $entrantId, int $brokerId)
     {
         $this->status_id = ConflictStatus::RESOLVED;
         if (!$this->save()) {

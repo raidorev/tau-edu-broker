@@ -24,7 +24,7 @@ class User extends \mdm\admin\models\User
         return new UserQuery(static::class);
     }
 
-    public static function findByEmail(string $email): ?User
+    public static function findByEmail(string $email)
     {
         return static::findOne([
             'email' => $email,
@@ -32,7 +32,7 @@ class User extends \mdm\admin\models\User
         ]);
     }
 
-    public static function findByUsername($username): ?User
+    public static function findByUsername($username)
     {
         return static::findOne([
             'email' => $username,

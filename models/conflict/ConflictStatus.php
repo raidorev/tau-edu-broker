@@ -16,8 +16,8 @@ use yii\db\ActiveRecord;
  */
 class ConflictStatus extends ActiveRecord
 {
-    public const OPEN = 1;
-    public const RESOLVED = 2;
+    const OPEN = 1;
+    const RESOLVED = 2;
 
     use TranslatableModelTrait;
 

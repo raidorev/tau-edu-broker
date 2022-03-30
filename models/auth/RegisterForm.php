@@ -68,7 +68,7 @@ class RegisterForm extends Model
      * @return User|null the saved model or null if saving fails
      * @throws Exception
      */
-    public function register(): ?User
+    public function register()
     {
         if (!$this->validate()) {
             return null;

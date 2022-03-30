@@ -8,5 +8,5 @@ interface ConflictDetector
 
     public function getIntersections(): array;
 
-    public function createConflicts(): void;
+    public function createConflicts();
 }

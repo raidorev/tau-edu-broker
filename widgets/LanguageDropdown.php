@@ -21,7 +21,7 @@ class LanguageDropdown extends Dropdown
         $this->items = self::getItems();
     }
 
-    public static function getItems()
+    public static function getItems(): array
     {
         $items = [];
 

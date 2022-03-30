@@ -47,7 +47,7 @@ class LoginForm extends Model
      * @param string $attribute the attribute currently being validated
      * @param ?array $params    the additional name-value pairs given in the rule
      */
-    public function validatePassword(string $attribute, ?array $params): void
+    public function validatePassword(string $attribute, array $params)
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
@@ -84,7 +84,7 @@ class LoginForm extends Model
      *
      * @return User|null
      */
-    public function getUser(): ?User
+    public function getUser()
     {
         if (!$this->_user) {
             $this->_user = User::findByEmail($this->email);

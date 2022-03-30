@@ -65,13 +65,13 @@ final class ViewHelper
      * прописано в таблице `menu`, он не может иметь параметры или якоря.
      *
      * @param string|null $currentPage Название текущей зависимой страницы
-     * @param bool $samePage Находится ли зависимая страница на том же маршруте, что и
+     * @param bool        $samePage    Находится ли зависимая страница на том же маршруте, что и
      *                                 основная
      */
     public static function addBreadcrumbs(
-        ?string $currentPage = null,
+        string $currentPage = null,
         bool $samePage = false
-    ): void {
+    ) {
         $route = '/' . Yii::$app->requestedRoute;
 
         if ($currentPage) {
@@ -88,9 +88,9 @@ final class ViewHelper
     }
 
     /**
-     * @param string $route Текущий маршрут
+     * @param string $route       Текущий маршрут
      * @param string $currentPage Смотри {@see ViewHelper::addBreadcrumbs()}
-     * @param bool $samePage Смотри {@see ViewHelper::addBreadcrumbs()}
+     * @param bool   $samePage    Смотри {@see ViewHelper::addBreadcrumbs()}
      *
      * @return array Хлебные крошки в формате
      *               `[['url' => '...', 'label' => '...'], ..., $currentPage]`

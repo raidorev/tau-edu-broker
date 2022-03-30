@@ -8,7 +8,7 @@ class LanguageSelector implements BootstrapInterface
 {
     public $supportedLanguages = [];
 
-    public function bootstrap($app): void
+    public function bootstrap($app)
     {
         $preferredLanguage = isset($app->request->cookies['language'])
             ? (string) $app->request->cookies['language']

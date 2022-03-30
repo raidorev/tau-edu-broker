@@ -17,7 +17,7 @@ trait SerializableQueryTrait
     }
 
     public function selectList(
-        ?string $emptyName = null,
+        string $emptyName = null,
         int $emptyKey = -1
     ): array {
         $list = $this->all();
@@ -35,7 +35,7 @@ trait SerializableQueryTrait
     }
 
     public function depDropList(
-        ?string $emptyName = null,
+        string $emptyName = null,
         int $emptyKey = -1
     ): array {
         $list = $this->all();

@@ -12,7 +12,7 @@ abstract class BaseDetector implements ConflictDetector
 
     abstract public function getIntersections(): array;
 
-    public function createConflicts(): void
+    public function createConflicts()
     {
         foreach ($this->getIntersections() as $intersection) {
             $isAnyEntrantsInConflict = false;

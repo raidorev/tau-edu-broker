@@ -28,7 +28,7 @@ class EducationalOrganization extends ActiveRecord
         return 'educational_organization';
     }
 
-    public const SCENARIO_CREATE = 'create';
+    const SCENARIO_CREATE = 'create';
 
     public function scenarios(): array
     {
@@ -39,7 +39,7 @@ class EducationalOrganization extends ActiveRecord
         return $scenarios;
     }
 
-    public function afterFind(): void
+    public function afterFind()
     {
         parent::afterFind();
 
@@ -51,7 +51,7 @@ class EducationalOrganization extends ActiveRecord
         );
     }
 
-    public function afterSave($insert, $changedAttributes): void
+    public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
 

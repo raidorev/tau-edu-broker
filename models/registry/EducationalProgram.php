@@ -67,7 +67,7 @@ class EducationalProgram extends ActiveRecord
         ]);
     }
 
-    public function getFullname()
+    public function getFullname(): string
     {
         return "$this->code «{$this->name}»";
     }

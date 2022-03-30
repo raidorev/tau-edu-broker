@@ -13,9 +13,9 @@ use yii\db\ActiveRecord;
  */
 class AuthAssignment extends ActiveRecord
 {
-    public const BROKER = 'Маклер';
-    public const MANAGER = 'Менеджер';
-    public const ADMIN = 'Админ';
+    const BROKER = 'Маклер';
+    const MANAGER = 'Менеджер';
+    const ADMIN = 'Админ';
 
     /**
      * {@inheritdoc}

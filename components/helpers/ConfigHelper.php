@@ -8,15 +8,15 @@ use yii\db\Connection;
 
 final class ConfigHelper
 {
-    public const ENV_WEB = 'web';
-    public const ENV_TEST = 'test';
-    public const ENV_CONSOLE = 'console';
+    const ENV_WEB = 'web';
+    const ENV_TEST = 'test';
+    const ENV_CONSOLE = 'console';
 
-    public const MODE_PRODUCTION = 'production';
-    public const MODE_DEVELOPMENT = 'development';
+    const MODE_PRODUCTION = 'production';
+    const MODE_DEVELOPMENT = 'development';
 
-    public const DB_TYPE_MSSQL = 'mssql';
-    public const DB_TYPE_MYSQL = 'mysql';
+    const DB_TYPE_MSSQL = 'mssql';
+    const DB_TYPE_MYSQL = 'mysql';
 
     /**
      * Сравнивает значение переменной `$_ENV['MODE']`
@@ -45,7 +45,7 @@ final class ConfigHelper
      *
      * @param string $env Текущее окружение
      */
-    public static function load(string $env = self::ENV_WEB): void
+    public static function load(string $env = self::ENV_WEB)
     {
         $filename = '.env';
         if ($env !== self::ENV_WEB) {
@@ -83,7 +83,7 @@ final class ConfigHelper
      */
     public static function createDbConfig(
         string $dbName,
-        ?string $type = null
+        string $type = null
     ): array {
         if (!$type) {
             $type = (string) $_ENV['DB_TYPE'];

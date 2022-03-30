@@ -46,17 +46,17 @@ use yii\db\Expression;
  */
 class Entrant extends ActiveRecord
 {
-    public const SCENARIO_STAGE_ONE = 'STAGE_ONE';
-    public const SCENARIO_STAGE_TWO = 'STAGE_TWO';
-    public const SCENARIO_STATUS_CHANGE = 'STATUS_CHANGE';
+    const SCENARIO_STAGE_ONE = 'STAGE_ONE';
+    const SCENARIO_STAGE_TWO = 'STAGE_TWO';
+    const SCENARIO_STATUS_CHANGE = 'STATUS_CHANGE';
 
-    public const STAGE_ONE_REQUIRED = [
+    const STAGE_ONE_REQUIRED = [
         'first_name',
         'last_name',
         'future_educational_program_id',
         'phone_number',
     ];
-    public const STAGE_TWO_REQUIRED = [
+    const STAGE_TWO_REQUIRED = [
         'first_name',
         'last_name',
         'future_educational_program_id',
@@ -68,7 +68,7 @@ class Entrant extends ActiveRecord
         'level_id',
         'iin',
     ];
-    public const STATUS_CHANGE_REQUIRED = ['status_id'];
+    const STATUS_CHANGE_REQUIRED = ['status_id'];
 
     public function scenarios(): array
     {
@@ -131,7 +131,7 @@ class Entrant extends ActiveRecord
         return parent::beforeSave($insert);
     }
 
-    public function afterSave($insert, $changedAttributes): void
+    public function afterSave($insert, $changedAttributes)
     {
         foreach (Conflict::detectors() as $detector) {
             $detector->createConflicts();
