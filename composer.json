@@ -57,7 +57,8 @@
     },
     "config": {
         "platform": {
-            "php": "7.0.13"
+            "php": "7.0.13",
+            "ext-mbstring": "1.0"
         },
         "platform-check": false,
         "process-timeout": 1800,
